@@ -1,1 +1,1 @@
-web: gunicorn tlearning.wsgi --log-file -
+web: gunicorn wsgi --log-file -

@@ -1,6 +1,8 @@
 numpy
 pandas
 scikit-learn
-django
+flask
+python-dotenv
 gunicorn
-django-heroku
+flask_sqlalchemy
+flask_redis
