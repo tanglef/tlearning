@@ -21,10 +21,9 @@ def init_app():
 
     with app.app_context():  # structure
         # import routes
-        from . import routes
+        from .home import routes
 
         # blueprints
-        # app.register_blueprint(auth.auth_bp)
-        # app.register_blueprint(admin.admin_bp)
+        app.register_blueprint(home.home_bp)
 
         return app
