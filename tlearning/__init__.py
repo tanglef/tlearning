@@ -24,6 +24,6 @@ def init_app():
         from .home import routes
 
         # blueprints
-        app.register_blueprint(home.home_bp)
+        app.register_blueprint(routes.home_bp)
 
         return app
