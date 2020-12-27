@@ -1,6 +1,4 @@
 from flask import Blueprint, render_template
-from flask import current_app as app
-
 
 # Blueprint Configuration
 home_bp = Blueprint(
@@ -14,7 +12,7 @@ home_bp = Blueprint(
 def home():
     """Homepage."""
     return render_template(
-        'index.jinja2',
+        'index.html',
         title='Main page',
         subtitle='With a template',
         template='home-template',
