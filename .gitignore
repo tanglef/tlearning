@@ -13,4 +13,4 @@ dist/
 build/
 *.egg-info/
 
-static/*.html
+linear_trend.html
