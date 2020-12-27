@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1> {% block title %} The linear model {% endblock %}</h1>
+
+  {% block head %}
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: {
+           equationNumbers: {  autoNumber: "AMS"  },
+           extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+        }
+      });
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+  {% endblock %}
+
+  <h2>What is a linear model?</h2>
+  <iframe title="Linear trend example" src="{{url_for('lm_bp.static', filename='linear_trend.html')}}" style="border-width: 0px" height="500px" width="100%"></iframe>
+
+  <h3>Some intuitive explanation</h3>
+
+  <h3>With a little more math</h3>
+  Let's suppose you have some data \(X\in\mathbb{R}^{n\times p}\) meaning that you have \(n\) points with \(p\) features.
+  Associated to each data point \(x_i\) is a reponse \(y_i\) contained in \(Y\in\mathbb{R}^n\).
+
+  Then what you do with the linear model is looking for the vector \(\beta\in\mathbb{R}^p\) such that $$Y=X\beta\enspace.$$
+  <p>Of course, most of the time the data isn't linear. </p>
+
+  
+  {% endblock %}

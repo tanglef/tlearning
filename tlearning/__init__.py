@@ -9,9 +9,9 @@ def init_app():
 
     with app.app_context():  # structure
         # import routes
-        from .home import routes
-
+        from .home import routes as routes_home
+        from .lm import routes as routes_lm
         # blueprints
-        app.register_blueprint(routes.home_bp)
-
+        app.register_blueprint(routes_home.home_bp)
+        app.register_blueprint(routes_lm.lm_bp)
         return app

@@ -6,3 +6,4 @@ python-dotenv
 gunicorn
 flask_sqlalchemy
 flask_redis
+plotly
