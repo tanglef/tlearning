@@ -44,3 +44,4 @@ def test_lm(client):
                                    "static", "*.html"))
     files = [os.path.basename(f) for f in files]
     assert 'linear_trend.html' in files
+    assert 'exp_trend.html' in files
