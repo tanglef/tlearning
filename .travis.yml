@@ -7,8 +7,8 @@ install:
 # Commandes pour installer les dépendances
 before_script:
   - pip install -r requirements.txt
-  - pip install python-coveralls
   - pip install pytest-cov
+  - pip install coverage
 # Commande pour exécuter les tests
 script:
   - pytest
