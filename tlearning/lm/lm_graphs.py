@@ -1,3 +1,4 @@
+from os.path import dirname
 import numpy as np
 import os
 import plotly.express as px
@@ -12,10 +13,42 @@ result_dir = os.path.join(current_dir, "static")
 # Simple linear trend
 ##########################
 
-fig = px.scatter(x=np.linspace(0, 10, num=30),
-                 y=np.linspace(0, 10, num=30) + np.random.randn(30),
+fig = px.scatter(x=np.arange(0, 11, 1),
+                 y=np.arange(0, 11, 1) + np.random.randn(11),
                  trendline="ols")
 fig.write_html(os.path.join(result_dir, "linear_trend.html"), auto_open=False)
+
+##########################
+# Games sells
+##########################
+x = np.arange(0, 11, 1)
+y = 120 + x * 100
+
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=x, y=y, name="price"))
+fig.add_shape(type="line",
+              x0=5, y0=0, x1=5, y1=620, xref='x', yref='y',
+              line=dict(color="RoyalBlue", width=3, dash="dashdot")
+              )
+fig.add_shape(type="line",
+              x0=0, y0=620, x1=5, y1=620, xref='x', yref='y',
+              line=dict(color="RoyalBlue", width=3, dash="dashdot")
+              )
+fig.add_trace(go.Scatter(
+    x=[5], y=[950],
+    text=["<b>5 rares game sell<br> at $620!</b>"],
+    mode="text"
+))
+fig.update_shapes(dict(xref='x', yref='y'))
+fig.update_layout(
+    title="Buying price",
+    xaxis_title="Number of rare games amongst the 10",
+    yaxis_title="Price you get",
+    font=dict(size=13),
+    showlegend=False)
+
+fig.write_html(os.path.join(result_dir, "video_games_1.html"), auto_open=False)
+
 
 ######################################
 # Non linear trend and transformation
