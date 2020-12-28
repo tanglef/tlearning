@@ -7,6 +7,11 @@ install:
 # Commandes pour installer les dépendances
 before_script:
   - pip install -r requirements.txt
+  - pip install python-coveralls
+  - pip install pytest-cov
 # Commande pour exécuter les tests
 script:
   - pytest
+# Commande pour envoyer les résultats de couverture de code à coveralls.io
+after_success:
+  coveralls
