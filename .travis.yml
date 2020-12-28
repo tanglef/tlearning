@@ -8,10 +8,11 @@ install:
 before_script:
   - pip install -r requirements.txt
   - pip install pytest-cov
-  - pip install coverage
+  - pip install pytest
+  - pip install coveralls
 # Commande pour exécuter les tests
 script:
-  - pytest
+  - pytest --cov=tlearning
 # Commande pour envoyer les résultats de couverture de code à coveralls.io
 after_success:
-  coveralls
+  - coveralls
