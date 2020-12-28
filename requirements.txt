@@ -4,7 +4,5 @@ scikit-learn
 flask
 python-dotenv
 gunicorn
-flask_sqlalchemy
-flask_redis
 plotly
 statsmodels
