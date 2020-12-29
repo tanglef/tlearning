@@ -1,4 +1,3 @@
-from os.path import dirname
 import numpy as np
 import os
 import plotly.express as px
@@ -13,16 +12,19 @@ result_dir = os.path.join(current_dir, "static")
 # Simple linear trend
 ##########################
 
-fig = px.scatter(x=np.arange(0, 11, 1),
-                 y=np.arange(0, 11, 1) + np.random.randn(11),
-                 trendline="ols")
+np.random.seed(11235)
+
+x = np.arange(0, 11, 1)
+y = 120 + x * 100
+
+fig = px.scatter(x=x,
+                 y=y + np.random.normal(size=11, loc=0, scale=40),
+                 trendline="ols", title="Buying price with noise")
 fig.write_html(os.path.join(result_dir, "linear_trend.html"), auto_open=False)
 
 ##########################
 # Games sells
 ##########################
-x = np.arange(0, 11, 1)
-y = 120 + x * 100
 
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=x, y=y, name="price"))
@@ -54,7 +56,6 @@ fig.write_html(os.path.join(result_dir, "video_games_1.html"), auto_open=False)
 # Non linear trend and transformation
 ######################################
 
-np.random.seed(11235)
 num_noises = 3
 noises = [1, 10, 20]
 x = np.linspace(0, 2, num=50)
@@ -68,7 +69,8 @@ for i in range(num_noises):
     y_exp.append(np.exp(LinearRegression().fit(x.reshape(-1, 1), np.log(
                  y_noised[i].reshape(-1, 1))).predict(x.reshape(-1, 1))))
     y_lin.append(LinearRegression().fit(x.reshape(-1, 1),
-                 y_noised[i].reshape(-1, 1)).predict(x.reshape(-1, 1)))
+                                        y_noised[i].reshape(-1, 1)).predict(
+                                            x.reshape(-1, 1)))
     r2_exp.append(r2_score(y_exp[i], y_noised[i]))
     r2_lin.append(r2_score(y_lin[i], y_noised[i]))
     mse_exp.append(mean_squared_error(y_exp[i], y_noised[i]))
@@ -80,22 +82,22 @@ trace_data = [
 
 trace_exp = [
     go.Scatter(
-            x=x,
-            y=y_exp[i].reshape(-1),
-            mode='lines',
-            name='Exponential fit',
-            hovertemplate='<b>R2=</b>:' + str(round(r2_exp[i], 2)) + '<br>' +
-                          '<b>MSE=</b>:' + str(round(mse_exp[i], 2)) + '<br>'
+        x=x,
+        y=y_exp[i].reshape(-1),
+        mode='lines',
+        name='Exponential fit',
+        hovertemplate='<b>R2=</b>:' + str(round(r2_exp[i], 2)) + '<br>' +
+        '<b>MSE=</b>:' + str(round(mse_exp[i], 2)) + '<br>'
     ) for i in range(num_noises)]
 
 trace_lin = [
     go.Scatter(
-            x=x,
-            y=y_lin[i].reshape(-1),
-            mode='lines',
-            name='Linear fit',
-            hovertemplate='<b>R2=</b>:' + str(round(r2_lin[i], 2)) + '<br>' +
-                          '<b>MSE=</b>:' + str(round(mse_lin[i], 2)) + '<br>'
+        x=x,
+        y=y_lin[i].reshape(-1),
+        mode='lines',
+        name='Linear fit',
+        hovertemplate='<b>R2=</b>:' + str(round(r2_lin[i], 2)) + '<br>' +
+        '<b>MSE=</b>:' + str(round(mse_lin[i], 2)) + '<br>'
     ) for i in range(num_noises)]
 
 fig = go.Figure(data=trace_data + trace_exp + trace_lin)

@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h1> {% block title %} The linear model {% endblock %}</h1>
-  <div id="table-of-contents">
-    <p class="toc_title">Contents</p>
-    <ul class="toc_list">
-      <li><a href="#part1">1 Part 1</a>
-        <ul>
-          <li><a href="#subpart1">1.1 First Sub Point 1</a></li>
-        </ul>
-      </li>
-    </ul>
-  </div>
-  {% block head %}
-  <script type="text/x-mathjax-config">
+<h1> {% block title %} The linear model {% endblock %}</h1>
+<p style="background: #c7ebfa;
+border: 1px solid #77e4ff;
+border-radius: 25px;
+display: table;
+font-size: 100%;
+margin-bottom: 1em;
+padding: 25px;
+width: 100%;">
+<a href="#part1">1. Part 1 (should work)</a><br />
+<a style="margin-left: 2rem;" href="#subpart1">1.2. CSS F U</a><br />
+</p>
+{% block head %}
+<script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         TeX: {
            equationNumbers: {  autoNumber: "AMS"  },
@@ -22,69 +23,68 @@
       });
   </script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script type="text/javascript" id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-  {% endblock %}
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+{% endblock %}
 
-  <h2 id="part1">What is a linear model?</h2>
-  <p align="justify">
-    The shortest way to describe the linear model is through a short example.
-    Suppose you want to sell \(10\) video games and wish to know how much you'll gain. This price will depend on:
-  <ul>
-    <li>the base price for \(10\) games,</li>
-    <li>how many rare games there are amongst them (here all rare games sell at the same value).</li>
-  </ul>
-  If a rare game is a bonus of \(\$100\) and the set of \(10\) games is bought at \(\$120\), then for \(2\) rare games
-  in
-  your possession you've got yourself
-  $$120 + 2\times 100 = \$320\enspace \text{(not bad!)}$$
+<h2 id="part1">What is a linear model?</h2>
+<p align="justify">
+  The shortest way to describe the linear model is through a short example.
+  Suppose you want to sell \(10\) video games and wish to know how much you'll gain. This price will depend on:
+<ul>
+  <li>the base price for \(10\) games,</li>
+  <li>how many rare games there are amongst them (here all rare games sell at the same value).</li>
+</ul>
+If a rare game is a bonus of \(\$100\) and the set of \(10\) games is bought at \(\$120\), then for \(2\) rare games
+in
+your possession you've got yourself
+$$120 + 2\times 100 = \$320\enspace \text{(not bad!)}$$
 
-  Most of you are currently screaming at the screen (with right) thinking that it's way too over simplified. <b>AND IT
-    IS!</b>
-  That is actually one of the best assets of the linear model: it's a very simple vision of a complex situation.
-  </p>
-  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" />
-  <div class="container">
-    <div class="row h-100">
-      <div class="col my-auto">
-        <p align="justify">
-          So it's simple. But let's visualize our benefits if we decided to keep some common games and sell more rares
-          gammes.
-          <br>
-          <br>
-          Of course, the more rare games you have in the \(10\), the best price you will get.
-          So for a set of totally common games, you'll end up with \(\$120\) and for a set only made of rare games you
-          gain \(\$ 1120\).
-          See the very straight line? It's actually the line with the equation $$y=120+100x\enspace.$$
-          This equation is the <b>perfect</b> model for the prices here.
-        </p>
-      </div>
-      <div class="col-8">
-        <iframe title="Price video games" src="{{url_for('lm_bp.static', filename='video_games_1.html')}}"
-          style="border-width: 0px" height="500px" width="100%"></iframe>
-      </div>
+Most of you are currently screaming at the screen (with right) thinking that it's way too over simplified. <b>AND IT
+  IS!</b>
+That is actually one of the best assets of the linear model: it's a very simple vision of a complex situation.
+
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" />
+<div class="container">
+  <div class="row h-100">
+    <div class="col my-auto">
+      <p align="justify">
+        So it's simple. But let's visualize our benefits if we decided to keep some common games and sell more rares
+        gammes.
+        <br>
+        <br>
+        Of course, the more rare games you have in the \(10\), the best price you will get.
+        So for a set of totally common games, you'll end up with \(\$120\) and for a set only made of rare games you
+        gain \(\$ 1120\).
+        See the very straight line? It's actually the line with the equation $$y=120+100x\enspace.$$
+        This equation is the <b>perfect</b> model for the prices here.
+      </p>
+    </div>
+    <div class="col-8">
+      <iframe title="Price video games" src="{{url_for('lm_bp.static', filename='video_games_1.html')}}"
+        style="border-width: 0px" height="500px" width="100%"></iframe>
     </div>
   </div>
-
-  But until here we only asked the seller how much they would buy our games at the current time. They made an estimation
-  but it may not be absolute.
-  Let's play with that next.
-  <iframe title="Linear trend example" src="{{url_for('lm_bp.static', filename='linear_trend.html')}}"
-    style="border-width: 0px" height="500px" width="100%"></iframe>
-
-  <h2 id="subpart1">With a little more math</h2>
-  <p align="justify">
-    Let's suppose you have some data \(X\in\mathbb{R}^{n\times p}\) meaning that you have \(n\) points with \(p\)
-    features.
-    Associated to each data point \(x_i\) is a reponse \(y_i\) contained in \(Y\in\mathbb{R}^n\).
-
-    Then what you do with the linear model is looking for the vector \(\beta\in\mathbb{R}^p\) such that
-    $$Y=X\beta\enspace.$$
-    <br>
-    Of course, most of the time the data isn't linear.
-  </p>
-  <iframe title="Exponential trend example" src="{{url_for('lm_bp.static', filename='exp_trend.html')}}"
-    style="border-width: 0px" height="500px" width="100%"></iframe>
 </div>
+
+But until here we only asked the seller how much they would buy our games at the current time. They made an estimation
+but it may not be absolute.
+Let's play with that next.
+<iframe title="Linear trend example" src="{{url_for('lm_bp.static', filename='linear_trend.html')}}"
+  style="border-width: 0px" height="500px" width="100%"></iframe>
+
+<h2 id="subpart1">With a little more math</h2>
+<p align="justify">
+  Let's suppose you have some data \(X\in\mathbb{R}^{n\times p}\) meaning that you have \(n\) points with \(p\)
+  features.
+  Associated to each data point \(x_i\) is a reponse \(y_i\) contained in \(Y\in\mathbb{R}^n\).
+
+  Then what you do with the linear model is looking for the vector \(\beta\in\mathbb{R}^p\) such that
+  $$Y=X\beta\enspace.$$
+  <br>
+  Of course, most of the time the data isn't linear.
+</p>
+<iframe title="Exponential trend example" src="{{url_for('lm_bp.static', filename='exp_trend.html')}}"
+  style="border-width: 0px" height="500px" width="100%"></iframe>
 {% endblock %}
