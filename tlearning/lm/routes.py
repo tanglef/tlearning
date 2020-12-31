@@ -10,12 +10,23 @@ lm_bp = Blueprint(
 )
 
 
-@lm_bp.route('/lm', methods=['GET'])
+@lm_bp.route('/lm/concept_lm', methods=['GET'])
 def lm():
     """Linear model page."""
 
     return render_template(
         'index_lm.html',
         title='LM main page',
+        template='lm-template',
+    )
+
+
+@lm_bp.route('/lm/coding_lm', methods=['GET'])
+def lm_code():
+    """Code linear model page."""
+
+    return render_template(
+        'coding_lm.html',
+        title='LM code page',
         template='lm-template',
     )

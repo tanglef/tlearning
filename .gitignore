@@ -14,3 +14,8 @@ build/
 *.egg-info/
 
 linear_trend.html
+coding_tests_ipynb/
+
+tlearning/lm/static/video_games_1.html
+
+tlearning/lm/static/exp_trend.html

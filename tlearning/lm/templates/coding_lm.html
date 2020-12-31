@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> {% block title %} How to code the linear model? {% endblock %}</h1>
+<p style="background: #c7ebfa;
+border: 1px solid #77e4ff;
+border-radius: 25px;
+display: table;
+font-size: 100%;
+margin-bottom: 1em;
+padding: 25px;
+width: 100%;">
+    <a href="#part1">1. With Python</a><br />
+    <a style="margin-left: 2rem;" href="#python_scratch">1.1. Make it ourselves from scratch</a><br />
+
+</p>
+{% block head %}
+<script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: {
+           equationNumbers: {  autoNumber: "AMS"  },
+           extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+        }
+      });
+  </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+{% endblock %}
+
+<h2 id="Python">With Python</h2>
+<p align="justify">
+    There are several packages that can be used to make the linear regression in Python.
+    However, because using a package can have a <i>black box</i> effect sometimes, let's try first
+    to make it ourselves.
+</p>
+
+<h3 id="python_scratch"> From scratch</h3>
+<p align="justify">
+To make a linear regression ourselves, we use:
+<ul>
+    <li>the standard format in machine learning methods: using a class with a <b>fit</b> and a <b>predict</b> method  
+        (if you don't know how the class work in Python you can see <a href="https://docs.python.org/3/tutorial/classes.html">this tutorial from the official documentation</a>
+    or <a href="https://jakevdp.github.io/blog/2012/12/01/a-primer-on-python-metaclasses/">this one by Jake VanderPlas</a>),
+    </li>
+    <li>the numpy package to make the matrix products and pandas for the data manipulation,</li>
+    <li> a simple gradient descent to optimize our model (you can use your favorite optimizer if you prefer, a section about optimizers is planned for the future so stay tuned).</li>
+  </ul> 
+
+  Now that we're all ready, let's jumpy right in!
+
+</p>
+
+
+
+{% endblock %}
