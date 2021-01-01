@@ -122,3 +122,34 @@ fig.layout.sliders = sliders
 for i, noise in enumerate(noises):
     fig['layout']['sliders'][0]['steps'][i]['label'] = noise
 fig.write_html(os.path.join(result_dir, "exp_trend.html"), auto_open=False)
+
+######################################
+# Click event graph
+######################################
+
+x = np.array([1])
+y = np.array([1])
+f = go.FigureWidget([go.Scatter(x=x, y=y, mode='markers')])
+
+scatter = f.data[0]
+colors = ['#0000FF'] * 100
+scatter.marker.color = colors
+scatter.marker.size = [20]
+f.layout.hovermode = 'closest'
+
+
+# create our callback function
+def update_point(trace, points, selector):
+    c = list(scatter.marker.color)
+    s = list(scatter.marker.size)
+    for i in points.point_inds:
+        c[i] = '#0000FF'
+        s[i] = 20
+        with f.batch_update():
+            scatter.marker.color = c
+            scatter.marker.size = s
+    f.write_html(os.path.join(result_dir, "point_click.html"), auto_open=False)
+
+
+scatter.on_click(update_point)
+f.write_html(os.path.join(result_dir, "point_click.html"), auto_open=False)

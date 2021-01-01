@@ -30,3 +30,14 @@ def lm_code():
         title='LM code page',
         template='lm-template',
     )
+
+
+@lm_bp.route('/lm/playing_lm', methods=['GET'])
+def lm_play():
+    """Point and click linear model page."""
+
+    return render_template(
+        'playing_lm.html',
+        title='LM GUI play page',
+        template='lm-template',
+    )
