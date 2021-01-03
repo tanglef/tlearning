@@ -16,11 +16,40 @@ np.random.seed(11235)
 
 x = np.arange(0, 11, 1)
 y = 120 + x * 100
+noise = np.random.normal(size=11, loc=0, scale=70)
 
 fig = px.scatter(x=x,
-                 y=y + np.random.normal(size=11, loc=0, scale=40),
+                 y=y + noise,
                  trendline="ols", title="Buying price with noise")
 fig.write_html(os.path.join(result_dir, "linear_trend.html"), auto_open=False)
+
+
+##################################
+# Video games L2 minimization
+##################################
+fig = go.Figure()
+fig.add_trace(go.Scatter(x=x, y=y+noise, name="price", mode="markers"))
+lr = LinearRegression().fit(x.reshape(-1, 1), y.reshape(-1, 1))
+y_lin = lr.predict(x.reshape(-1, 1)).flatten()
+fig.add_trace(go.Scatter(x=x, y=y_lin, name="linear model",
+                         line=dict(color="blue")))
+
+for i in range(11):
+    fig.add_shape(type="line",
+                  x0=x[i], y0=y_lin[i], x1=x[i], y1=y[i]+noise[i], xref='x',
+                  yref='y', line=dict(color="red", width=3)
+                  )
+
+fig.update_shapes(dict(xref='x', yref='y'))
+fig.update_layout(
+    title="Buying price",
+    xaxis_title="Number of rare games amongst the 10",
+    yaxis_title="Price you get",
+    font=dict(size=13),
+    showlegend=False)
+
+fig.write_html(os.path.join(result_dir, "l2_games.html"), auto_open=False)
+
 
 ##########################
 # Games sells

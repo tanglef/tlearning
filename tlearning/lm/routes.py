@@ -41,3 +41,15 @@ def lm_play():
         title='LM GUI play page',
         template='lm-template',
     )
+
+
+@lm_bp.route('/lm/math_lm', methods=['GET'])
+def lm_math():
+    """Some maths for the linear model page."""
+
+    return render_template(
+        'math_lm.html',
+        title='LM math page',
+        template='lm-template',
+    )
+

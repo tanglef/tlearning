@@ -9,6 +9,31 @@
   <!--Plotly-->
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
+  <!--Number headings-->
+  <style>
+    body{counter-reset: section}
+    h2{counter-reset: sub-section}
+    h3{counter-reset: composite}
+    h4{counter-reset: detail}
+ 
+    h2:before{
+      counter-increment: section;
+      content: counter(section) " ";
+    }
+    h3:before{
+      counter-increment: sub-section;
+      content: counter(section) "." counter(sub-section) " ";
+    }
+    h4:before{
+      counter-increment: composite;
+      content: counter(section) "." counter(sub-section) "." counter(composite) " ";
+    }
+    h5:before{
+      counter-increment: detail;
+      content: counter(section) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";
+    }
+    </style>
+
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -30,6 +55,7 @@
             aria-expanded="false">Linear model</a>
           <div class="dropdown-menu">
             <a class="dropdown-item" href="/lm/concept_lm">Concept</a>
+            <a class="dropdown-item" href="/lm/math_lm">Some maths</a>
             <a class="dropdown-item" href="/lm/coding_lm">Coding</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="/lm/playing_lm">Your turn</a>
