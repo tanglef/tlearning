@@ -11,7 +11,10 @@ def init_app():
         # import routes
         from .home import routes as routes_home
         from .lm import routes as routes_lm
+        from .logreg import routes as routes_logreg
         # blueprints
         app.register_blueprint(routes_home.home_bp)
         app.register_blueprint(routes_lm.lm_bp)
+        app.register_blueprint(routes_logreg.logreg_bp)
+
         return app

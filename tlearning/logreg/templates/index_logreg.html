@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1> {% block title %} The logistic regression {% endblock %}</h1>
+<p style="background: #c7ebfa;
+border: 1px solid #77e4ff;
+border-radius: 25px;
+display: table;
+font-size: 100%;
+margin-bottom: 1em;
+padding: 25px;
+width: 100%;">
+  <a href="#inline">1. Classification with logistic regression?</a><br />
+  <a style="margin-left: 2rem;" href="#simple">1.1 Binary classification</a><br />
+</p>
+{% block head %}
+<script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: {
+           equationNumbers: {  autoNumber: "AMS"  },
+           extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+        }
+      });
+  </script>
+
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+{% endblock %}
+
+<h2 id="inline">Classification with the logistic regression?</h2>
+<h3 id="simple">Binary classification</h3>
+<p align="justify">dfsjkdqs
+  </p>
+{% endblock %}

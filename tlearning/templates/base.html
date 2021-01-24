@@ -8,31 +8,47 @@
 
   <!--Plotly-->
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-
+  <script type="text/javascript" async
+    src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML">
+    </script>
   <!--Number headings-->
   <style>
-    body{counter-reset: section}
-    h2{counter-reset: sub-section}
-    h3{counter-reset: composite}
-    h4{counter-reset: detail}
- 
-    h2:before{
+    body {
+      counter-reset: section
+    }
+
+    h2 {
+      counter-reset: sub-section
+    }
+
+    h3 {
+      counter-reset: composite
+    }
+
+    h4 {
+      counter-reset: detail
+    }
+
+    h2:before {
       counter-increment: section;
       content: counter(section) " ";
     }
-    h3:before{
+
+    h3:before {
       counter-increment: sub-section;
-      content: counter(section) "." counter(sub-section) " ";
+      content: counter(section) "."counter(sub-section) " ";
     }
-    h4:before{
+
+    h4:before {
       counter-increment: composite;
-      content: counter(section) "." counter(sub-section) "." counter(composite) " ";
+      content: counter(section) "."counter(sub-section) "."counter(composite) " ";
     }
-    h5:before{
+
+    h5:before {
       counter-increment: detail;
-      content: counter(section) "." counter(sub-section) "." counter(composite) "." counter(detail) " ";
+      content: counter(section) "."counter(sub-section) "."counter(composite) "."counter(detail) " ";
     }
-    </style>
+  </style>
 
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -61,7 +77,13 @@
             <a class="dropdown-item" href="/lm/playing_lm">Your turn</a>
           </div>
         </li>
-
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+            aria-expanded="false">Logistic regression</a>
+          <div class="dropdown-menu">
+            <a class="dropdown-item" href="/logreg/concept_logreg">Concept</a>
+          </div>
+        </li>
       </ul>
     </div>
   </nav>

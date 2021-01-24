@@ -107,6 +107,7 @@ for i in range(num_noises):
 
 trace_data = [
     go.Scatter(name="Exponential data: Noise =" + str(noises[i]),
+               visible=[True, False, False][i],
                x=x, y=y_noised[i], mode='markers') for i in range(num_noises)]
 
 trace_exp = [
@@ -115,6 +116,7 @@ trace_exp = [
         y=y_exp[i].reshape(-1),
         mode='lines',
         name='Exponential fit',
+        visible=[True, False, False][i],
         hovertemplate='<b>R2=</b>:' + str(round(r2_exp[i], 2)) + '<br>' +
         '<b>MSE=</b>:' + str(round(mse_exp[i], 2)) + '<br>'
     ) for i in range(num_noises)]
@@ -125,6 +127,7 @@ trace_lin = [
         y=y_lin[i].reshape(-1),
         mode='lines',
         name='Linear fit',
+        visible=[True, False, False][i],
         hovertemplate='<b>R2=</b>:' + str(round(r2_lin[i], 2)) + '<br>' +
         '<b>MSE=</b>:' + str(round(mse_lin[i], 2)) + '<br>'
     ) for i in range(num_noises)]

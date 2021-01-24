@@ -52,4 +52,3 @@ def lm_math():
         title='LM math page',
         template='lm-template',
     )
-
