@@ -2,6 +2,7 @@
 
 {% block content %}
 <h1> {% block title %} The linear model {% endblock %}</h1>
+<div class="sidenav">
 <p style="background: #c7ebfa;
 border: 1px solid #77e4ff;
 border-radius: 25px;
@@ -15,6 +16,7 @@ width: 100%;">
   <a style="margin-left: 2rem;" href="#noised">1.2. Add some noise </a><br />
   <a href="#nonlinearity"> 2. But things are rarely all straight...</a>
 </p>
+</div>
 {% block head %}
 <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -95,4 +97,8 @@ That is actually one of the best assets of the linear model: it's a very simple 
 </p>
 <iframe title="Exponential trend example" src="{{url_for('lm_bp.static', filename='exp_trend.html')}}"
   style="border-width: 0px" height="500px" width="100%"></iframe>
+
+<a href="#" class="previous">&laquo; Previous</a>
+<a href="math_lm" class="next">Next &raquo;</a>
+  
 {% endblock %}

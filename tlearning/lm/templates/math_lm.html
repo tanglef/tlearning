@@ -2,6 +2,7 @@
 
 {% block content %}
 <h1> {% block title %} With more maths {% endblock %}</h1>
+<div class="sidenav">
 <p style="background: #c7ebfa;
 border: 1px solid #77e4ff;
 border-radius: 25px;
@@ -16,6 +17,7 @@ width: 100%;">
     <a style="margin-left: 2rem;" href="#quality">1.3 Quality of regression and inference</a><br />
     <a href="#multi"> 2. With more features</a>
 </p>
+</div>
 {% block head %}
 <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
@@ -133,5 +135,8 @@ Associated to each data point \(x_i\) is a reponse \(y_i\) contained in \(Y\in\m
 Then what you do with the linear model is looking for the vector \(\beta\in\mathbb{R}^p\) such that
 $$Y=X\beta\enspace.$$
 <br>
+
+<a href="concept_lm" class="previous">&laquo; Previous</a>
+<a href="coding_lm" class="next">Next &raquo;</a>
 
 {% endblock %}
