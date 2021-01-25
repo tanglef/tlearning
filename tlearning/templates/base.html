@@ -54,7 +54,7 @@
   <style>
     .sidenav {
       height: 100%;
-      width: 300px;
+      width: 0px;
       position: fixed;
       z-index: 1;
       top: 50px;
@@ -62,20 +62,53 @@
       background-color: #ffffff;
       overflow-x: hidden;
       overflow-y: auto;
-      padding-top: 18px;
+      transition: 0.5s;
+      padding-top: 60px;
     }
 
     .sidenav a {
-      padding: 1px 6px 6px 4px;
+      padding: 8px 8px 8px 32px;
       text-decoration: none;
-      font-size: 20px;
-      color: #000000;
-      line-height: 1;
+      font-size: 25px;
+      color: #818181;
       display: block;
+      transition: 0.3s;
     }
 
     .sidenav a:hover {
-      color: #818181;
+      color: #f1f1f1;
+    }
+
+    /* Position and style the close button (top right corner) */
+    .sidenav .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+
+    /* The button used to open the sidebar */
+    .openbtn {
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #111;
+      color: white;
+      padding: 10px 15px;
+      border: none;
+      position: absolute;
+      top: 0;
+      right: 25px;
+    }
+
+    .openbtn:hover {
+      background-color: #444;
+    }
+
+    /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+    #main {
+      transition: margin-left .5s;
+      padding: 20px
     }
 
     .previous {
@@ -152,6 +185,18 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+  <script>
+    function openNav() {
+      document.getElementById("Sidebar").style.width = "300px";
+      document.getElementById("main").style.marginLeft = "0px";
+    }
+
+    function closeNav() {
+      document.getElementById("Sidebar").style.width = "0";
+      document.getElementById("main").style.marginLeft = "0";
+    }
+  </script>
+
 </body>
 
 </html>

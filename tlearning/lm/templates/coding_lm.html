@@ -1,20 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="main">
+
 <h1> {% block title %} How to code the linear model? {% endblock %}</h1>
-<div class="sidenav">
-<p style="background: #c7ebfa;
-border: 1px solid #77e4ff;
-border-radius: 25px;
-display: table;
-font-size: 100%;
-margin-bottom: 1em;
-padding: 25px;
-width: 100%;">
+<div id="Sidebar" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <a href="#part1">1. With Python</a><br />
     <a style="margin-left: 2rem;" href="#python_scratch">1.1. Make it ourselves from scratch</a><br />
-
-</p>
 </div>
 {% block head %}
 <script type="text/x-mathjax-config">
@@ -29,6 +22,7 @@ width: 100%;">
 <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 {% endblock %}
+<button class="openbtn" onclick="openNav()">☰ Contents</button>
 
 <h2 id="Python">With Python</h2>
 <p align="justify">
@@ -55,4 +49,5 @@ To make a linear regression ourselves, we use:
 <a href="math_lm" class="previous">&laquo; Previous</a>
 <a href="playing_lm" class="next">Next &raquo;</a>
 
+</div>
 {% endblock %}

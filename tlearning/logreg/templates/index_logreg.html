@@ -1,22 +1,15 @@
 {% extends 'base.html' %}
+<div id="main">
 
-{% block content %}
-<h1> {% block title %} The logistic regression {% endblock %}</h1>
-<div class="sidenav">
-<p style="background: #c7ebfa;
-border: 1px solid #77e4ff;
-border-radius: 25px;
-display: table;
-font-size: 100%;
-margin-bottom: 1em;
-padding: 25px;
-width: 100%;">
-  <a href="#inline">1. Classification with logistic regression?</a><br />
-  <a style="margin-left: 2rem;" href="#simple">1.1 Binary classification</a><br />
-</p>
-</div>
-{% block head %}
-<script type="text/x-mathjax-config">
+  {% block content %}
+  <h1> {% block title %} The logistic regression {% endblock %}</h1>
+  <div id="Sidebar" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="#inline">1. Classification with logistic regression?</a><br />
+    <a style="margin-left: 2rem;" href="#simple">1.1 Binary classification with contingency tables</a><br />
+  </div>
+  {% block head %}
+  <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         TeX: {
            equationNumbers: {  autoNumber: "AMS"  },
@@ -25,11 +18,210 @@ width: 100%;">
       });
   </script>
 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-{% endblock %}
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  {% endblock %}
+  <button class="openbtn" onclick="openNav()">☰ Contents</button>
 
-<h2 id="inline">Classification with the logistic regression?</h2>
-<h3 id="simple">Binary classification</h3>
-<p align="justify">dfsjkdqs
+  <h2 id="inline">Classification with the logistic regression?</h2>
+  <p align="justify">
+    The logistic regression is a classification tool based on the probability to belong to a category.
+    It can be used in different situations, with more than two classes. However, our goal is to build it up to the
+    multi-class.
   </p>
+  <h3 id="simple">Binary classification with contingency tables</h3>
+  <p align="justify">
+    First, we look at a simpler problem, where we observe some data and regroup the values. We can imagine
+    that our data is an number of smokes per day in average and we look at the number of people with a lung cancer after
+    20 years
+    (this is a mock dataset purely invented).
+  </p>
+
+  <table style="margin-left:auto;margin-right:auto;border-collapse:collapse;border-color:#9ABAD9;border-spacing:0"
+    class="tg">
+    <thead>
+      <tr>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 17px;text-align:left;vertical-align:top;word-break:normal">
+        </th>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 17px;text-align:left;vertical-align:top;word-break:normal">
+          1</th>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 17px;text-align:left;vertical-align:top;word-break:normal">
+          3.5</th>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 17px;text-align:left;vertical-align:top;word-break:normal">
+          5<br></th>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 17px;text-align:left;vertical-align:top;word-break:normal">
+          10.75<br></th>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 17px;text-align:left;vertical-align:top;word-break:normal">
+          15</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:left;vertical-align:top;word-break:normal">
+          Y=1: deads<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          3</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          9<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          7<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          8<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          13</td>
+      </tr>
+      <tr>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:left;vertical-align:top;word-break:normal">
+          Y=0: alive</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          47</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          59</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          43</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          22</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          27</td>
+      </tr>
+      <tr>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:left;vertical-align:top;word-break:normal">
+          total</td>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          50</td>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          60<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          50<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          30</td>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
+          40</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p align="justify">
+    We could rewrite that with notations to follow our reasoning with maths.
+
+  </p>
+
+  <table style="margin-left:auto;margin-right:auto;border-collapse:collapse;border-color:#9ABAD9;border-spacing:0"
+    class="tg">
+    <thead>
+      <tr>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 18px;text-align:left;vertical-align:top;word-break:normal">
+        </th>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 18px;text-align:left;vertical-align:top;word-break:normal">
+          \(x_1\)</th>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 18px;text-align:left;vertical-align:top;word-break:normal">
+          \(x_2\)<br></th>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 18px;text-align:left;vertical-align:top;word-break:normal">
+          \(x_3\)</th>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 18px;text-align:left;vertical-align:top;word-break:normal">
+          ...</th>
+        <th
+          style="background-color:#409cff;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;font-weight:normal;overflow:hidden;padding:12px 18px;text-align:left;vertical-align:top;word-break:normal">
+          \(x_C\)</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:left;vertical-align:top;word-break:normal">
+          Y=1: deads<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_{11}\)<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_{12}\)</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_{13}\)<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          ...</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_{1C}\)<br></td>
+      </tr>
+      <tr>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:left;vertical-align:top;word-break:normal">
+          Y=0: alive</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_{01}\)<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_{02}\)</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_{03}\)<br></td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          ...</td>
+        <td
+          style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_{0C}\)<br></td>
+      </tr>
+      <tr>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:left;vertical-align:top;word-break:normal">
+          total</td>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_1\)</td>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_2\)</td>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_3\)</td>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          ...</td>
+        <td
+          style="background-color:#EBF5FF;border-color:#9ABAD9;border-style:solid;border-width:1px;color:#fff;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 18px;text-align:center;vertical-align:top;word-break:normal">
+          \(n_C\)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  So we have \(n=\sum_{i=1}^C n_i\) observations amongst \(C\) categories.
+
+
+
+
+
+</div>
 {% endblock %}

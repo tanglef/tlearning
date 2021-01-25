@@ -1,21 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div id="main">
+
 <h1> {% block title %} The linear model {% endblock %}</h1>
-<div class="sidenav">
-<p style="background: #c7ebfa;
-border: 1px solid #77e4ff;
-border-radius: 25px;
-display: table;
-font-size: 100%;
-margin-bottom: 1em;
-padding: 25px;
-width: 100%;">
-  <a href="#inline">1. What is a linear model?</a><br />
-  <a style="margin-left: 2rem;" href="#simple">1.1 A simple case</a><br />
-  <a style="margin-left: 2rem;" href="#noised">1.2. Add some noise </a><br />
-  <a href="#nonlinearity"> 2. But things are rarely all straight...</a>
-</p>
+<div id="Sidebar" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="#inline">1. What is a linear model?</a><br />
+    <a style="margin-left: 2rem;" href="#simple">1.1 A simple case</a><br />
+    <a style="margin-left: 2rem;" href="#noised">1.2. Add some noise </a><br />
+    <a href="#nonlinearity"> 2. But things are rarely all straight...</a>
 </div>
 {% block head %}
 <script type="text/x-mathjax-config">
@@ -32,73 +26,77 @@ width: 100%;">
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 {% endblock %}
 
-<h2 id="inline">What is a linear model?</h2>
-<h3 id="simple">A simple case</h3>
-<p align="justify">
-  The shortest way to describe the linear model is through a short example.
-  Suppose you want to sell \(10\) video games and wish to know how much you'll gain. This price will depend on:
-<ul>
-  <li>the base price for \(10\) games,</li>
-  <li>how many rare games there are amongst them (here all rare games sell at the same value).</li>
-</ul>
-If a rare game is a bonus of \(\$100\) and the set of \(10\) games is bought at \(\$120\), then for \(2\) rare games
-in
-your possession you've got yourself
-$$120 + 2\times 100 = \$320\enspace \text{(not bad!)}$$
+<button class="openbtn" onclick="openNav()">☰ Contents</button>
 
-Most of you are currently screaming at the screen (with right) thinking that it's way too over simplified. <b>AND IT
-  IS!</b>
-That is actually one of the best assets of the linear model: it's a very simple vision of a complex situation.
+  <h2 id="inline">What is a linear model?</h2>
+  <h3 id="simple">A simple case</h3>
+  <p align="justify">
+    The shortest way to describe the linear model is through a short example.
+    Suppose you want to sell \(10\) video games and wish to know how much you'll gain. This price will depend on:
+  <ul>
+    <li>the base price for \(10\) games,</li>
+    <li>how many rare games there are amongst them (here all rare games sell at the same value).</li>
+  </ul>
+  If a rare game is a bonus of \(\$100\) and the set of \(10\) games is bought at \(\$120\), then for \(2\) rare games
+  in
+  your possession you've got yourself
+  $$120 + 2\times 100 = \$320\enspace \text{(not bad!)}$$
 
-<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" />
-<div class="container">
-  <div class="row h-100">
-    <div class="col my-auto">
-      <p align="justify">
-        So it's simple. But let's visualize our benefits if we decided to keep some common games and sell more rares
-        gammes.
-        <br>
-        <br>
-        Of course, the more rare games you have in the \(10\), the best price you will get.
-        So for a set of totally common games, you'll end up with \(\$120\) and for a set only made of rare games you
-        gain \(\$ 1120\).
-        See the very straight line? It's actually the line with the equation $$y=120+100x\enspace.$$
-        This equation is the <b>perfect</b> model for the prices here.
-      </p>
-    </div>
-    <div class="col-8">
-      <iframe title="Price video games" src="{{url_for('lm_bp.static', filename='video_games_1.html')}}"
-        style="border-width: 0px" height="500px" width="100%"></iframe>
+  Most of you are currently screaming at the screen (with right) thinking that it's way too over simplified. <b>AND IT
+    IS!</b>
+  That is actually one of the best assets of the linear model: it's a very simple vision of a complex situation.
+
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" rel="stylesheet" />
+  <div class="container">
+    <div class="row h-100">
+      <div class="col my-auto">
+        <p align="justify">
+          So it's simple. But let's visualize our benefits if we decided to keep some common games and sell more rares
+          gammes.
+          <br>
+          <br>
+          Of course, the more rare games you have in the \(10\), the best price you will get.
+          So for a set of totally common games, you'll end up with \(\$120\) and for a set only made of rare games you
+          gain \(\$ 1120\).
+          See the very straight line? It's actually the line with the equation $$y=120+100x\enspace.$$
+          This equation is the <b>perfect</b> model for the prices here.
+        </p>
+      </div>
+      <div class="col-8">
+        <iframe title="Price video games" src="{{url_for('lm_bp.static', filename='video_games_1.html')}}"
+          style="border-width: 0px" height="500px" width="100%"></iframe>
+      </div>
     </div>
   </div>
+  <h3 id="noised">Add some spice (noise) to it</h3>
+  <p align="justify">
+    But until here we only asked the seller how much they would buy our games at the current time. They made an
+    estimation
+    but it may not be absolute. Let's play with that next.<br>
+
+    Let's think in a caricatural way (as we always do). Suppose that you ask to estimate the different sets of games to
+    different sellers.
+    Each seller should be reasonably close to each other, but they will of course say different prices. This difference
+    is
+    like a noise over
+    the base price. So this time, our points won't be aligned but <i>more or less</i> on a line. And with some
+    mathematical hypothesis on
+    this noise, we can fit a line to our data.
+
+  </p>
+  <iframe title="Linear trend example" src="{{url_for('lm_bp.static', filename='linear_trend.html')}}"
+    style="border-width: 0px" height="500px" width="100%"></iframe>
+
+  <h2 id="nonlinearity">But things are rarely straight...</h2>
+  <p align="justify">
+    Of course, most of the time the data isn't linear. But the linear model is a base model and with the right
+    transformations you can get represent a lot of situations. Below you can see an exponential trend with more
+    or less noise.
+  </p>
+  <iframe title="Exponential trend example" src="{{url_for('lm_bp.static', filename='exp_trend.html')}}"
+    style="border-width: 0px" height="500px" width="100%"></iframe>
+
+  <a href="#" class="previous">&laquo; Previous</a>
+  <a href="math_lm" class="next">Next &raquo;</a>
 </div>
-<h3 id="noised">Add some spice (noise) to it</h3>
-<p align="justify">
-  But until here we only asked the seller how much they would buy our games at the current time. They made an estimation
-  but it may not be absolute. Let's play with that next.<br>
-
-  Let's think in a caricatural way (as we always do). Suppose that you ask to estimate the different sets of games to
-  different sellers.
-  Each seller should be reasonably close to each other, but they will of course say different prices. This difference is
-  like a noise over
-  the base price. So this time, our points won't be aligned but <i>more or less</i> on a line. And with some
-  mathematical hypothesis on
-  this noise, we can fit a line to our data.
-
-</p>
-<iframe title="Linear trend example" src="{{url_for('lm_bp.static', filename='linear_trend.html')}}"
-  style="border-width: 0px" height="500px" width="100%"></iframe>
-
-<h2 id="nonlinearity">But things are rarely straight...</h2>
-<p align="justify">
-  Of course, most of the time the data isn't linear. But the linear model is a base model and with the right
-  transformations you can get represent a lot of situations. Below you can see an exponential trend with more
-  or less noise.
-</p>
-<iframe title="Exponential trend example" src="{{url_for('lm_bp.static', filename='exp_trend.html')}}"
-  style="border-width: 0px" height="500px" width="100%"></iframe>
-
-<a href="#" class="previous">&laquo; Previous</a>
-<a href="math_lm" class="next">Next &raquo;</a>
-  
 {% endblock %}

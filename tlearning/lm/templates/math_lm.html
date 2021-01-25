@@ -1,25 +1,19 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1> {% block title %} With more maths {% endblock %}</h1>
-<div class="sidenav">
-<p style="background: #c7ebfa;
-border: 1px solid #77e4ff;
-border-radius: 25px;
-display: table;
-font-size: 100%;
-margin-bottom: 1em;
-padding: 25px;
-width: 100%;">
-    <a href="#XY">1. With one feature?</a><br />
-    <a style="margin-left: 2rem;" href="#firsthypo">1.1 The first hypothesis</a><br />
-    <a style="margin-left: 2rem;" href="#OLS">1.2 Least squares</a><br />
-    <a style="margin-left: 2rem;" href="#quality">1.3 Quality of regression and inference</a><br />
-    <a href="#multi"> 2. With more features</a>
-</p>
-</div>
-{% block head %}
-<script type="text/x-mathjax-config">
+<div id="main">
+
+    <h1> {% block title %} With more maths {% endblock %}</h1>
+    <div id="Sidebar" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="#XY">1. With one feature?</a><br />
+        <a style="margin-left: 2rem;" href="#firsthypo">1.1 The first hypothesis</a><br />
+        <a style="margin-left: 2rem;" href="#OLS">1.2 Least squares</a><br />
+        <a style="margin-left: 2rem;" href="#quality">1.3 Quality of regression and inference</a><br />
+        <a href="#multi"> 2. With more features</a>
+    </div>
+    {% block head %}
+    <script type="text/x-mathjax-config">
       MathJax.Hub.Config({
         TeX: {
            equationNumbers: {  autoNumber: "AMS"  },
@@ -28,115 +22,126 @@ width: 100%;">
       });
   </script>
 
-<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-<script type="text/javascript" id="MathJax-script" async
-    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
-{% endblock %}
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+    {% endblock %}
+    <button class="openbtn" onclick="openNav()">☰ Contents</button>
 
-<p align="justify">Now that you get some sense on what we're doing with the linear model, let's
-    get into the maths (slowly no worry).
-</p>
 
-<h2 id="XY">With one feature</h2>
+    <p align="justify">Now that you get some sense on what we're doing with the linear model, let's
+        get into the maths (slowly no worry).
+    </p>
 
-<p align="justify">
-    Let's say we have a sample of size \(n\) as our dataset: \((X,Y)=(x_i,y_i)_{i=1}^n\). If our data was in perfect
-    line we
-    would have
-    the relation \(y_i=a\times x_i + b\) as usual and work from there just as we did when we were little.
+    <h2 id="XY">With one feature</h2>
 
+    <p align="justify">
+        Let's say we have a sample of size \(n\) as our dataset: \((X,Y)=(x_i,y_i)_{i=1}^n\). If our data was in perfect
+        line we
+        would have
+        the relation \(y_i=a\times x_i + b\) as usual and work from there just as we did when we were little.
+
+        <br>
+
+        But now, we said that the data might not be on a line but noised. Each point has a different noise that we right
+        \(\varepsilon_i\), then
+
+        $$y_i=\beta_1\times x_i + \beta_0\, {\color{red}+\, \varepsilon_i}\enspace.$$
+
+        Our goal is to find \(\beta_1\) and \(\beta_0\) so that the line fits the data as well as it can.
+    </p>
+
+    <h3 id="firsthypo">The first hypothesis</h3>
+
+    <p align="justify">
+        To do so, we need to make some hypothesis about our data and noise:
+
+    <ul>
+        <li>all the \(x_i\) are not equal (otherwise the line is simply vertical),</li>
+        <li>the noise is centered and without covariance <i>ie</i>
+            $$\mathbb{E}[\varepsilon_i] = 0 \text{ and } \mathrm{Cov}(\varepsilon_i,
+            \varepsilon_j)=\sigma^2\delta_{ij}\enspace,$$
+            where \(\delta_{ij}=1\) if \(i=j\) and \(0\) otherwise (the Kronecker symbol).</li>
+    </ul>
+    </p>
+    <h3 id="OLS">Least squares</h3>
+
+    <p align="justify">
+        The least squares method is used to minimized the (squared) \(l2-\)norm (euclidean distance) between the
+        \(y_i\)s
+        and our estimations: \(\|\hat y - y\|_2^2\)
+        with \(\hat y_i=\beta_0 + \beta_1 x_i\).
+        So we find the estimates of \(\beta_0\) and \(\beta_1\) as:
+        $$(\hat\beta_0,\hat\beta_1)\in\arg\min_{\mathbb{R}^2}\sum_{i=1}^n\left[y_i-(\beta_1x_i +
+        \beta_0)\right]^2\enspace.$$
+        Because this norm is convex and differentiable, we can simply calculte the derivates to find the roots. This
+        gives
+        us
+        an explicit formula for our estimated coefficients. We note \(\bar{x}\) the average of \((x_i)_{i=1}^n\), idem
+        for
+        \(\bar{y}\), then:
+
+        $$\hat\beta_1 = \frac{\mathrm{Cov}(X,Y)}{\mathbb{V}(X)}=\frac{\sum x_iy_i - n\sum x_i\sum y_j}{\sum x_i^2 -
+        n(\sum
+        x_i)^2}
+        \quad \text{and}\quad \hat\beta_0=\bar{y} - \hat\beta_1 \bar{x}\enspace.$$
+
+        Using our video games situation from <a href="/lm/concept_lm">the introduction</a>, then it minimizes the
+        distances
+        highlighted on the graph.
+
+    </p>
+    <iframe title="Minimize the distance between the line and the data"
+        src="{{url_for('lm_bp.static', filename='l2_games.html')}}" style="border-width: 0px" height="500px"
+        width="100%"></iframe>
+
+    <h3 id="quality">Quality of regression and inference</h3>
+
+    <p align="justify">
+        Now that we have a way to estimate the slope and the intercept of the coefficients, we have our model that we
+        can
+        write in the vectorized way:
+        $$\hat Y = X\hat\beta\enspace.$$
+        The most common way to check the quality of our fitting against the actual data is using the \(R^2\)
+        measurement.
+        To introduce it, let's take a look at the variance of \(Y\) again.
+        $$\mathbb{V}(Y)=\|Y-\bar{y}1\!\!1\|^2 = \underbrace{\|\hat Y - \bar{y}1\!\!1\|^2}_{SSE} + \underbrace{\|Y - \hat
+        Y\|^2}_{SSR}=SST\enspace.$$
+    </p><br />
+
+    HERE PUT A VISUAL AID!!!!!!!!
+
+    <br />
+    Then the \(R^2\) is defined as the ratio of the explained variance (by our model) over the total variance of the
+    data.
+    But it can
+    be easier to manipulate equivalent expressions:
+
+    $$
+    \begin{aligned}
+    R^2 & = \frac{SSE}{SST} \\
+    & = 1-\frac{SSR}{SST} \\
+    & = \frac{\mathrm{Cov(Y,\hat Y)}}{\sqrt{\mathbb{V}(Y)\mathbb{V}(\hat Y)}} (=\rho^2(Y,\hat Y)) \\
+    & = \frac{\mathrm{Cov(X, Y)}}{\sqrt{\mathbb{V}(Y)\mathbb{V}(X)}} (=\rho^2(X,Y))\enspace.
+    \end{aligned}
+    $$
+
+    Note that \({\color{red}\text{ except for the last equality}}\), all equalities are still valid when using more than
+    one feature
+    (case that we shall see very soon).
+    The notation \(\rho^2\) is for Pearson's squared correlation coefficient.
+
+    <h2 id="multi">With more features</h2>
+
+    Let's suppose you have some data \(X\in\mathbb{R}^{n\times p}\) meaning that you have \(n\) points with \(p\)
+    features.
+    Associated to each data point \(x_i\) is a reponse \(y_i\) contained in \(Y\in\mathbb{R}^n\).
+
+    Then what you do with the linear model is looking for the vector \(\beta\in\mathbb{R}^p\) such that
+    $$Y=X\beta\enspace.$$
     <br>
 
-    But now, we said that the data might not be on a line but noised. Each point has a different noise that we right
-    \(\varepsilon_i\), then
-
-    $$y_i=\beta_1\times x_i + \beta_0\, {\color{red}+\, \varepsilon_i}\enspace.$$
-
-    Our goal is to find \(\beta_1\) and \(\beta_0\) so that the line fits the data as well as it can.
-</p>
-
-<h3 id="firsthypo">The first hypothesis</h3>
-
-<p align="justify">
-    To do so, we need to make some hypothesis about our data and noise:
-
-<ul>
-    <li>all the \(x_i\) are not equal (otherwise the line is simply vertical),</li>
-    <li>the noise is centered and without covariance <i>ie</i>
-        $$\mathbb{E}[\varepsilon_i] = 0 \text{ and } \mathrm{Cov}(\varepsilon_i,
-        \varepsilon_j)=\sigma^2\delta_{ij}\enspace,$$
-        where \(\delta_{ij}=1\) if \(i=j\) and \(0\) otherwise (the Kronecker symbol).</li>
-</ul>
-</p>
-<h3 id="OLS">Least squares</h3>
-
-<p align="justify">
-    The least squares method is used to minimized the (squared) \(l2-\)norm (euclidean distance) between the \(y_i\)s
-    and our estimations: \(\|\hat y - y\|_2^2\)
-    with \(\hat y_i=\beta_0 + \beta_1 x_i\).
-    So we find the estimates of \(\beta_0\) and \(\beta_1\) as:
-    $$(\hat\beta_0,\hat\beta_1)\in\arg\min_{\mathbb{R}^2}\sum_{i=1}^n\left[y_i-(\beta_1x_i +
-    \beta_0)\right]^2\enspace.$$
-    Because this norm is convex and differentiable, we can simply calculte the derivates to find the roots. This gives
-    us
-    an explicit formula for our estimated coefficients. We note \(\bar{x}\) the average of \((x_i)_{i=1}^n\), idem for
-    \(\bar{y}\), then:
-
-    $$\hat\beta_1 = \frac{\mathrm{Cov}(X,Y)}{\mathbb{V}(X)}=\frac{\sum x_iy_i - n\sum x_i\sum y_j}{\sum x_i^2 - n(\sum
-    x_i)^2}
-    \quad \text{and}\quad \hat\beta_0=\bar{y} - \hat\beta_1 \bar{x}\enspace.$$
-
-    Using our video games situation from <a href="/lm/concept_lm">the introduction</a>, then it minimizes the distances
-    highlighted on the graph.
-
-</p>
-<iframe title="Minimize the distance between the line and the data"
-    src="{{url_for('lm_bp.static', filename='l2_games.html')}}" style="border-width: 0px" height="500px"
-    width="100%"></iframe>
-
-<h3 id="quality">Quality of regression and inference</h3>
-
-<p align="justify">
-    Now that we have a way to estimate the slope and the intercept of the coefficients, we have our model that we can
-    write in the vectorized way:
-    $$\hat Y = X\hat\beta\enspace.$$
-    The most common way to check the quality of our fitting against the actual data is using the \(R^2\) measurement.
-    To introduce it, let's take a look at the variance of \(Y\) again.
-    $$\mathbb{V}(Y)=\|Y-\bar{y}1\!\!1\|^2 = \underbrace{\|\hat Y - \bar{y}1\!\!1\|^2}_{SSE} + \underbrace{\|Y - \hat
-    Y\|^2}_{SSR}=SST\enspace.$$
-</p><br />
-
-HERE PUT A VISUAL AID!!!!!!!!
-
-<br />
-Then the \(R^2\) is defined as the ratio of the explained variance (by our model) over the total variance of the data.
-But it can
-be easier to manipulate equivalent expressions:
-
-$$
-\begin{aligned}
-R^2 & = \frac{SSE}{SST} \\
-& = 1-\frac{SSR}{SST} \\
-& = \frac{\mathrm{Cov(Y,\hat Y)}}{\sqrt{\mathbb{V}(Y)\mathbb{V}(\hat Y)}} (=\rho^2(Y,\hat Y)) \\
-& = \frac{\mathrm{Cov(X, Y)}}{\sqrt{\mathbb{V}(Y)\mathbb{V}(X)}} (=\rho^2(X,Y))\enspace.
-\end{aligned}
-$$
-
-Note that \({\color{red}\text{ except for the last equality}}\), all equalities are still valid when using more than one feature
-(case that we shall see very soon).
-The notation \(\rho^2\) is for Pearson's squared correlation coefficient.
-
-<h2 id="multi">With more features</h2>
-
-Let's suppose you have some data \(X\in\mathbb{R}^{n\times p}\) meaning that you have \(n\) points with \(p\)
-features.
-Associated to each data point \(x_i\) is a reponse \(y_i\) contained in \(Y\in\mathbb{R}^n\).
-
-Then what you do with the linear model is looking for the vector \(\beta\in\mathbb{R}^p\) such that
-$$Y=X\beta\enspace.$$
-<br>
-
-<a href="concept_lm" class="previous">&laquo; Previous</a>
-<a href="coding_lm" class="next">Next &raquo;</a>
-
+    <a href="concept_lm" class="previous">&laquo; Previous</a>
+    <a href="coding_lm" class="next">Next &raquo;</a>
+</div>
 {% endblock %}
