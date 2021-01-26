@@ -5,8 +5,12 @@
   <h1> {% block title %} The logistic regression {% endblock %}</h1>
   <div id="Sidebar" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-    <a href="#inline">1. Classification with logistic regression?</a><br />
-    <a style="margin-left: 2rem;" href="#simple">1.1 Binary classification with contingency tables</a><br />
+    <a href="#inline">1. Regression with a contingency table</a><br />
+    <a style="margin-left: 2rem;" href="#sigmoid">1.1 Introducing the sigmoid function</a><br />
+    <a href="#inference">2 Testing the model</a><br />
+    <a style="margin-left: 2rem;" href="#MLE">2.1 Maximul likelihood estimator</a><br />
+    <a style="margin-left: 2rem;" href="#test">2.1 Deviance test</a><br />
+
   </div>
   {% block head %}
   <script type="text/x-mathjax-config">
@@ -22,18 +26,16 @@
   {% endblock %}
   <button class="openbtn" onclick="openNav()">☰ Contents</button>
 
-  <h2 id="inline">Classification with the logistic regression?</h2>
+  <h2 id="inline">Regression with a contingency table</h2>
   <p align="justify">
-    The logistic regression is a classification tool based on the probability to belong to a category.
-    It can be used in different situations, with more than two classes. However, our goal is to build it up to the
-    multi-class.
+    The logistic regression is a tool based on the probability to belong to a category.
+    It can be used in different situations, with more than two classes, to solve classification problems for example.
+    Our goal is to build it up to the multi-class.
   </p>
-  <h3 id="simple">Binary classification with contingency tables</h3>
   <p align="justify">
     First, we look at a simpler problem, where we observe some data and regroup the values. We can imagine
-    that our data is an number of smokes per day in average and we look at the number of people with a lung cancer after
-    20 years
-    (this is a mock dataset purely invented).
+    that our data is an number of smokes per day in average and  we look at the number of people with a lung cancer after
+    20 years (this is a mock dataset purely invented). We want to determine if a logistic model is wise (or not).
   </p>
 
   <table style="margin-left:auto;margin-right:auto;border-collapse:collapse;border-color:#9ABAD9;border-spacing:0"
@@ -217,9 +219,14 @@
     </tbody>
   </table>
 
-  So we have \(n=\displaystyle\sum_{i=1}^C n_i\) observations amongst \(C\) categories. The idea is to consider the model:
+  So we have \(n=\displaystyle\sum_{i=1}^C n_i\) i.i.d observations amongst \(C\) categories. Knowing the category is the same as knowing
+  conditional distribution. Indeed, \(\mathbb{P}(Y_i=1\,|\, X=x_c)=p_c\).
+  Meaning that if we take someone from one of these categories, let's say \(3.5\) smokes, then they will develop a lung cancer with probability \(p_2\) that we want to estimate.
+  The idea is to consider the model:
   $$\mathrm{P}(Y=1\,|\, X=x)=\sigma(\beta_0 + \beta_1 x)=\frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1 x}}\enspace.$$
 
+
+  <h3 id="sigmoid"> Introducing the sigmoid function</h3>
   The function \(\sigma\) is the sigmoïd, it has quite a few nice properties that we shall see along the way.
   <div class="container">
     <div class="row h-200">
@@ -246,6 +253,53 @@
   Indeed, if \(\mathrm{P}(Y=1\,|\,x)>0.5)\), then we assign \(Y\) to \(1\), else \(0\) (the reversed situation is also true).
 </p>
 
+<h2 id="inference"> Testing the model</h2>
+<h3 id="MLE"> Maximum likelihood estimator</h3>
+
+<p align="justify">
+We need to check if the logistic model can be used on our data. For that, we can use the deviance test (or your favorite one).
+Let's pose our hypothesis:
+</p>
+
+$$H_0:\sigma(\mathrm{P}(Y=1\,|\,X=x_c)):=\sigma(p_c)=\beta_0+\beta_1 x_c\quad vs\quad H_1:(p_1,\dots,p_C)\in ]0,1[^C\enspace.$$
+
+<p align="justify">
+  The first thing to do here is compute the likelihood:
+  $$\begin{aligned}
+  \mathcal{L}(p) &= \prod_{i=1}^n \text{density of}(Y_i\,|\, X=x_c)\\
+                 &= \prod_{c=1}^C \prod_{j=1}^{n_c} p_c^{Y_j\,|\,X=x_c}(1-p_c)^{1-Y_j\,|\,X=x_c}\\
+                 &= \prod_{c=1}^C p_c^{\sum_j Y_j\,|\,X=x_c}(1-p_c)^{n_c - \sum_j Y_j\,|\,X=x_c}
+  \end{aligned}$$
+
+  Noting \(Y^j_c:=Y_j\,|\, X=x_c\), we have \(\mathcal{L}(p)=\prod_{c=1}^C p_c^{\sum_j Y^j_c}(1-p_c)^{n_c - \sum_j Y^j_c}\).
+  To find the MLE, we maximise the log-likelihood. Because \(\sum_j Y^j_c = n_{1c}\) we have:
+
+  $$l(p)=\sum_{c=1}^C n_{1c}\log(p_c) + (n_c - n_{1c})\log(1-p_c)\enspace . $$
+
+  Under \(H_1\), information theory tells us that the MLE of \(p_c\) is \(\hat p_c=\frac{n_{1c}}{n_c}\). <br/>
+  Under \(H_0\), we need to maximize in \(\beta\) the expression
+  $$l(\beta)=\sum_{c=1}^C n_{1c}\log(\sigma(\beta_0 + \beta_1 x_c)) + (n_c-n_{c1})\log(1-\sigma(\beta_0 + \beta_1 x_c))\enspace .$$
+
+  Using the properties of \(\sigma\), it is easy to show that:
+  $$\frac{1}{n}\frac{\partial}{\partial\beta}l(\overset{\frown}{\beta})=
+  \frac{1}{n}\underbrace{\begin{bmatrix} 1 & \cdots & 1 \\ x_1 & \cdots & x_C \end{bmatrix}}_{X'}
+  \underbrace{\begin{bmatrix} n_1 & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & n_{C} \end{bmatrix}}_{nN}
+  \left(\begin{bmatrix} \hat p_1 \\ \vdots \\ \hat p_C \end{bmatrix} - \begin{bmatrix} \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_1) \\ \vdots \\
+  \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_C)\end{bmatrix}\right) = 0 \enspace .
+   $$
+</p>
+
+With a little sweat we now have the MLE of \(p_c\)under \(H_1\) and of \(\beta\) under \(H_0\). But using \(\overset{\frown}{p_c}= \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_c))\),
+we can recover the MLE under both tested hypothesis. So we have everythinig to make tests, estimations, confidence intervals\(\dots\)
+
+<h3 id="test"> Deviance test</h3>
+
+
+
+<a href="#" class="previous">&laquo; Previous</a>
+<a href="classification" class="next">Next &raquo;</a>
 
 </div>
+
+
 {% endblock %}

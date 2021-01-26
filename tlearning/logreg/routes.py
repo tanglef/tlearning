@@ -21,15 +21,15 @@ def logreg():
     )
 
 
-# @logreg_bp.route('/logreg/coding_logreg', methods=['GET'])
-# def logreg_code():
-#     """Code logistic regression page."""
+@logreg_bp.route('/logreg/classification', methods=['GET'])
+def logreg_code():
+    """Classification with logistic regression page."""
 
-#     return render_template(
-#         'coding_logreg.html',
-#         title='Logreg code page',
-#         template='logreg-template',
-#     )
+    return render_template(
+        'classification.html',
+        title='Logreg code page',
+        template='logreg-template',
+    )
 
 
 # @logreg_bp.route('/logreg/playing_logreg', methods=['GET'])
