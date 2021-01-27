@@ -9,7 +9,7 @@
     <a style="margin-left: 2rem;" href="#sigmoid">1.1 Introducing the sigmoid function</a><br />
     <a href="#inference">2 Testing the model</a><br />
     <a style="margin-left: 2rem;" href="#MLE">2.1 Maximul likelihood estimator</a><br />
-    <a style="margin-left: 2rem;" href="#test">2.1 Deviance test</a><br />
+    <a style="margin-left: 2rem;" href="#test">2.2 Deviance test</a><br />
 
   </div>
   {% block head %}
@@ -35,7 +35,8 @@
   <p align="justify">
     First, we look at a simpler problem, where we observe some data and regroup the values. We can imagine
     that our data is an number of smokes per day in average and  we look at the number of people with a lung cancer after
-    20 years (this is a mock dataset purely invented). We want to determine if a logistic model is wise (or not).
+    20 years (this is a mock dataset purely invented and way over-exagerated but please bear with it).
+    We want to determine if a logistic model is wise (or not).
   </p>
 
   <table style="margin-left:auto;margin-right:auto;border-collapse:collapse;border-color:#9ABAD9;border-spacing:0"
@@ -72,16 +73,16 @@
           3</td>
         <td
           style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#444;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
-          9<br></td>
+          10<br></td>
         <td
           style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#444;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
-          7<br></td>
+          15<br></td>
         <td
           style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#444;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
-          8<br></td>
+          20<br></td>
         <td
           style="background-color:#EBF5FF;border-color:inherit;border-style:solid;border-width:1px;color:#444;font-family:Arial, sans-serif;font-size:14px;overflow:hidden;padding:12px 17px;text-align:center;vertical-align:top;word-break:normal">
-          13</td>
+          32</td>
       </tr>
       <tr>
         <td
@@ -289,13 +290,27 @@ $$H_0:\sigma(\mathrm{P}(Y=1\,|\,X=x_c)):=\sigma(p_c)=\beta_0+\beta_1 x_c\quad vs
    $$
 </p>
 
+<p align="justify">
 With a little sweat we now have the MLE of \(p_c\)under \(H_1\) and of \(\beta\) under \(H_0\). But using \(\overset{\frown}{p_c}= \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_c))\),
 we can recover the MLE under both tested hypothesis. So we have everythinig to make tests, estimations, confidence intervals\(\dots\)
-
+</p>
 <h3 id="test"> Deviance test</h3>
+<p align="justify">
+We remind that our hypothesis is \(H_0:\sigma(p_c)=\beta_0 + \beta_1 x_c\). We have \(\overset{\frown}{p_c}\) the MLE estimator under \(H_0\)
+and \(\hat p_c\) the MLE under \(H_1\). A statistic test is the deviance one:
 
+$$D_n=2n\sum_{j=0}^1\sum_{c=1}^C\hat p_{jc}\log\frac{\hat p_{jc}}{\overset{\frown}{p_{jc}}} \overset{d}{=} \chi^2_{C-2}\enspace .$$
 
+One last important result to be able to make all the inference tests and confidence intervals is the asymptotic distribution of \(\beta\) under \(H_0\):
+$$\overset{\frown}{\beta}\overset{d}{=}\mathcal{N}_2\left(\beta, \frac{1}{n}(X'N\overset{\frown}{D}X)^{-1}\right),\quad
+ \overset{\frown}{D}=\mathrm{diag}\left[\sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_c)(1-\sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_c))\right] \enspace . $$
 
+Finally, we can see what our model looks like against for example a linear model. See that sweet sigmoid shape?
+</p>
+<p align="center">
+<iframe title="sigmoid" src="{{url_for('logreg_bp.static', filename='smokers.html')}}"
+style="display: block;border-width: 0px" height="500px" width="75%"></iframe>
+</p>
 <a href="#" class="previous">&laquo; Previous</a>
 <a href="classification" class="next">Next &raquo;</a>
 
