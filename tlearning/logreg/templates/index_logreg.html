@@ -34,7 +34,7 @@
   </p>
   <p align="justify">
     First, we look at a simpler problem, where we observe some data and regroup the values. We can imagine
-    that our data is an number of smokes per day in average and  we look at the number of people with a lung cancer after
+    that our data is an number of smokes per day in average and we look at the number of people with a lung cancer after
     20 years (this is a mock dataset purely invented and way over-exagerated but please bear with it).
     We want to determine if a logistic model is wise (or not).
   </p>
@@ -220,11 +220,14 @@
     </tbody>
   </table>
 
-  So we have \(n=\displaystyle\sum_{i=1}^C n_i\) i.i.d observations amongst \(C\) categories. Knowing the category is the same as knowing
+  So we have \(n=\displaystyle\sum_{i=1}^C n_i\) i.i.d observations amongst \(C\) categories. Knowing the category is
+  the same as knowing
   conditional distribution. Indeed, \(\mathbb{P}(Y_i=1\,|\, X=x_c)=p_c\).
-  Meaning that if we take someone from one of these categories, let's say \(3.5\) smokes, then they will develop a lung cancer with probability \(p_2\) that we want to estimate.
+  Meaning that if we take someone from one of these categories, let's say \(3.5\) smokes, then they will develop a lung
+  cancer with probability \(p_2\) that we want to estimate.
   The idea is to consider the model:
-  $$\mathrm{P}(Y=1\,|\, X=x)=\sigma(\beta_0 + \beta_1 x)=\frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1 x}}\enspace.$$
+  $$\mathrm{P}(Y=1\,|\, X=x)=\sigma(\beta_0 + \beta_1 x)=\frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1
+  x}}\enspace.$$
 
 
   <h3 id="sigmoid"> Introducing the sigmoid function</h3>
@@ -232,87 +235,100 @@
   <div class="container">
     <div class="row h-200">
       <div class="col my-auto">
-          <ul>
-            <li>\(\sigma(x)=\frac{e^x}{1+e^x}=\frac{1}{1+e^{-x}}\),</li>
-            <br/>
-            <li>\(\sigma'(x)=\sigma(x)(1-\sigma(x)).\)</li>
-            <br/>
-            <li>\(\sigma(x)=\frac{1}{2}(1+\tanh\left(\frac{x}{2}\right)).\)</li>
-          </ul>
-          </div>
+        <ul>
+          <li>\(\sigma(x)=\frac{e^x}{1+e^x}=\frac{1}{1+e^{-x}}\),</li>
+          <br />
+          <li>\(\sigma'(x)=\sigma(x)(1-\sigma(x)).\)</li>
+          <br />
+          <li>\(\sigma(x)=\frac{1}{2}(1+\tanh\left(\frac{x}{2}\right)).\)</li>
+        </ul>
+      </div>
       <div class="col-8">
-        <iframe title="sigmoid" src="{{url_for('logreg_bp.static', filename='sigmoid.html')}}"
-          style="border-width: 0px" height="500px" width="100%"></iframe>
+        <iframe title="sigmoid" src="{{url_for('logreg_bp.static', filename='sigmoid.html')}}" style="border-width: 0px"
+          height="500px" width="100%"></iframe>
       </div>
     </div>
   </div>
 
 
-<p align="justify">
-  As you can see, the sigmoid goes quickly but smoothly from one asymptote to the other.
-  The line \(y=\frac{1}{2}\) is important as it is where our boundary will be set.
-  Indeed, if \(\mathrm{P}(Y=1\,|\,x)>0.5)\), then we assign \(Y\) to \(1\), else \(0\) (the reversed situation is also true).
-</p>
+  <p align="justify">
+    As you can see, the sigmoid goes quickly but smoothly from one asymptote to the other.
+    The line \(y=\frac{1}{2}\) is important as it is where our boundary will be set.
+    Indeed, if \(\mathrm{P}(Y=1\,|\,x)>0.5)\), then we assign \(Y\) to \(1\), else \(0\) (the reversed situation is also
+    true).
+  </p>
 
-<h2 id="inference"> Testing the model</h2>
-<h3 id="MLE"> Maximum likelihood estimator</h3>
+  <h2 id="inference"> Testing the model</h2>
+  <h3 id="MLE"> Maximum likelihood estimator</h3>
 
-<p align="justify">
-We need to check if the logistic model can be used on our data. For that, we can use the deviance test (or your favorite one).
-Let's pose our hypothesis:
-</p>
+  <p align="justify">
+    We need to check if the logistic model can be used on our data. For that, we can use the deviance test (or your
+    favorite one).
+    Let's pose our hypothesis:
+  </p>
 
-$$H_0:\sigma(\mathrm{P}(Y=1\,|\,X=x_c)):=\sigma(p_c)=\beta_0+\beta_1 x_c\quad vs\quad H_1:(p_1,\dots,p_C)\in ]0,1[^C\enspace.$$
+  $$H_0:\sigma(\mathrm{P}(Y=1\,|\,X=x_c)):=\sigma(p_c)=\beta_0+\beta_1 x_c\quad vs\quad H_1:(p_1,\dots,p_C)\in
+  ]0,1[^C\enspace.$$
 
-<p align="justify">
-  The first thing to do here is compute the likelihood:
-  $$\begin{aligned}
-  \mathcal{L}(p) &= \prod_{i=1}^n \text{density of}(Y_i\,|\, X=x_c)\\
-                 &= \prod_{c=1}^C \prod_{j=1}^{n_c} p_c^{Y_j\,|\,X=x_c}(1-p_c)^{1-Y_j\,|\,X=x_c}\\
-                 &= \prod_{c=1}^C p_c^{\sum_j Y_j\,|\,X=x_c}(1-p_c)^{n_c - \sum_j Y_j\,|\,X=x_c}
-  \end{aligned}$$
+  <p align="justify">
+    The first thing to do here is compute the likelihood:
+    $$\begin{aligned}
+    \mathcal{L}(p) &= \prod_{i=1}^n \text{density of}(Y_i\,|\, X=x_c)\\
+    &= \prod_{c=1}^C \prod_{j=1}^{n_c} p_c^{Y_j\,|\,X=x_c}(1-p_c)^{1-Y_j\,|\,X=x_c}\\
+    &= \prod_{c=1}^C p_c^{\sum_j Y_j\,|\,X=x_c}(1-p_c)^{n_c - \sum_j Y_j\,|\,X=x_c}
+    \end{aligned}$$
 
-  Noting \(Y^j_c:=Y_j\,|\, X=x_c\), we have \(\mathcal{L}(p)=\prod_{c=1}^C p_c^{\sum_j Y^j_c}(1-p_c)^{n_c - \sum_j Y^j_c}\).
-  To find the MLE, we maximise the log-likelihood. Because \(\sum_j Y^j_c = n_{1c}\) we have:
+    Noting \(Y^j_c:=Y_j\,|\, X=x_c\), we have \(\mathcal{L}(p)=\prod_{c=1}^C p_c^{\sum_j Y^j_c}(1-p_c)^{n_c - \sum_j
+    Y^j_c}\).
+    To find the MLE, we maximise the log-likelihood. Because \(\sum_j Y^j_c = n_{1c}\) we have:
 
-  $$l(p)=\sum_{c=1}^C n_{1c}\log(p_c) + (n_c - n_{1c})\log(1-p_c)\enspace . $$
+    $$l(p)=\sum_{c=1}^C n_{1c}\log(p_c) + (n_c - n_{1c})\log(1-p_c)\enspace . $$
 
-  Under \(H_1\), information theory tells us that the MLE of \(p_c\) is \(\hat p_c=\frac{n_{1c}}{n_c}\). <br/>
-  Under \(H_0\), we need to maximize in \(\beta\) the expression
-  $$l(\beta)=\sum_{c=1}^C n_{1c}\log(\sigma(\beta_0 + \beta_1 x_c)) + (n_c-n_{c1})\log(1-\sigma(\beta_0 + \beta_1 x_c))\enspace .$$
+    Under \(H_1\), information theory tells us that the MLE of \(p_c\) is \(\hat p_c=\frac{n_{1c}}{n_c}\). <br />
+    Under \(H_0\), we need to maximize in \(\beta\) the expression
+    $$l(\beta)=\sum_{c=1}^C n_{1c}\log(\sigma(\beta_0 + \beta_1 x_c)) + (n_c-n_{c1})\log(1-\sigma(\beta_0 + \beta_1
+    x_c))\enspace .$$
 
-  Using the properties of \(\sigma\), it is easy to show that:
-  $$\frac{1}{n}\frac{\partial}{\partial\beta}l(\overset{\frown}{\beta})=
-  \frac{1}{n}\underbrace{\begin{bmatrix} 1 & \cdots & 1 \\ x_1 & \cdots & x_C \end{bmatrix}}_{X'}
-  \underbrace{\begin{bmatrix} n_1 & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & n_{C} \end{bmatrix}}_{nN}
-  \left(\begin{bmatrix} \hat p_1 \\ \vdots \\ \hat p_C \end{bmatrix} - \begin{bmatrix} \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_1) \\ \vdots \\
-  \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_C)\end{bmatrix}\right) = 0 \enspace .
-   $$
-</p>
+    Using the properties of \(\sigma\), it is easy to show that:
+    $$\frac{1}{n}\frac{\partial}{\partial\beta}l(\overset{\frown}{\beta})=
+    \frac{1}{n}\underbrace{\begin{bmatrix} 1 & \cdots & 1 \\ x_1 & \cdots & x_C \end{bmatrix}}_{X'}
+    \underbrace{\begin{bmatrix} n_1 & \cdots & 0 \\ \vdots & \ddots & \vdots \\ 0 & \cdots & n_{C} \end{bmatrix}}_{nN}
+    \left(\begin{bmatrix} \hat p_1 \\ \vdots \\ \hat p_C \end{bmatrix} - \begin{bmatrix}
+    \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_1) \\ \vdots \\
+    \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_C)\end{bmatrix}\right) = 0 \enspace .
+    $$
+  </p>
 
-<p align="justify">
-With a little sweat we now have the MLE of \(p_c\)under \(H_1\) and of \(\beta\) under \(H_0\). But using \(\overset{\frown}{p_c}= \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_c))\),
-we can recover the MLE under both tested hypothesis. So we have everythinig to make tests, estimations, confidence intervals\(\dots\)
-</p>
-<h3 id="test"> Deviance test</h3>
-<p align="justify">
-We remind that our hypothesis is \(H_0:\sigma(p_c)=\beta_0 + \beta_1 x_c\). We have \(\overset{\frown}{p_c}\) the MLE estimator under \(H_0\)
-and \(\hat p_c\) the MLE under \(H_1\). A statistic test is the deviance one:
+  <p align="justify">
+    With a little sweat we now have the MLE of \(p_c\)under \(H_1\) and of \(\beta\) under \(H_0\). But using
+    \(\overset{\frown}{p_c}= \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_c))\),
+    we can recover the MLE under both tested hypothesis. So we have everythinig to make tests, estimations, confidence
+    intervals\(\dots\)
+  </p>
+  <h3 id="test"> Deviance test</h3>
+  <p align="justify">
+    We remind that our hypothesis is \(H_0:\sigma(p_c)=\beta_0 + \beta_1 x_c\). We have \(\overset{\frown}{p_c}\) the
+    MLE estimator under \(H_0\)
+    and \(\hat p_c\) the MLE under \(H_1\). A statistic test is the deviance one:
 
-$$D_n=2n\sum_{j=0}^1\sum_{c=1}^C\hat p_{jc}\log\frac{\hat p_{jc}}{\overset{\frown}{p_{jc}}} \overset{d}{=} \chi^2_{C-2}\enspace .$$
+    $$D_n=2n\sum_{j=0}^1\sum_{c=1}^C\hat p_{jc}\log\frac{\hat p_{jc}}{\overset{\frown}{p_{jc}}} \overset{d}{=}
+    \chi^2_{C-2}\enspace .$$
 
-One last important result to be able to make all the inference tests and confidence intervals is the asymptotic distribution of \(\beta\) under \(H_0\):
-$$\overset{\frown}{\beta}\overset{d}{=}\mathcal{N}_2\left(\beta, \frac{1}{n}(X'N\overset{\frown}{D}X)^{-1}\right),\quad
- \overset{\frown}{D}=\mathrm{diag}\left[\sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_c)(1-\sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_c))\right] \enspace . $$
+    One last important result to be able to make all the inference tests and confidence intervals is the asymptotic
+    distribution of \(\beta\) under \(H_0\):
+    $$\overset{\frown}{\beta}\overset{d}{=}\mathcal{N}_2\left(\beta,
+    \frac{1}{n}(X'N\overset{\frown}{D}X)^{-1}\right),\quad
+    \overset{\frown}{D}=\mathrm{diag}\left[\sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1}
+    x_c)(1-\sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_c))\right] \enspace . $$
 
-Finally, we can see what our model looks like against for example a linear model. See that sweet sigmoid shape?
-</p>
-<p align="center">
-<iframe title="sigmoid" src="{{url_for('logreg_bp.static', filename='smokers.html')}}"
-style="display: block;border-width: 0px" height="500px" width="75%"></iframe>
-</p>
-<a href="#" class="previous">&laquo; Previous</a>
-<a href="classification" class="next">Next &raquo;</a>
+    Finally, we can see what our model looks like against for example a linear model. See that sweet sigmoid shape?
+  </p>
+  <p align="center">
+    <iframe title="sigmoid" src="{{url_for('logreg_bp.static', filename='smokers.html')}}"
+      style="display: block;border-width: 0px" height="500px" width="75%"></iframe>
+  </p>
+  <a href="#" class="previous">&laquo; Previous</a>
+  <a href="classification" class="next">Next &raquo;</a>
 
 </div>
 

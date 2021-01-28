@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+<div id="main">
+
+  {% block content %}
+  <h1> {% block title %} The logistic regression {% endblock %}</h1>
+  <div id="Sidebar" class="sidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="#variables">1. Binary classification with more variables</a><br />
+    <a style="margin-left: 2rem;" href="#softmax">1.1 The softmax function</a><br />
+
+
+  </div>
+  {% block head %}
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: {
+           equationNumbers: {  autoNumber: "AMS"  },
+           extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+        }
+      });
+  </script>
+
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  {% endblock %}
+  <button class="openbtn" onclick="openNav()">☰ Contents</button>
+
+  <h2 id="variables">Binary classification with more variables</h2>
+  <h3 id="softmax">The softmax function</h2>
+    <p align="justify">
+      As of now, we've only worked with \(1\) variable with a number of categories, which is quite limited.
+      Let's make another step towards the generalization and consider \(p\) variables \(x_1,\dots x_p\) in a dataset of
+      \(n\) rows.
+      The goal is to predict the category assigned to a subject (for example \(1=\)dead, \(0=\)alive if the interest if
+      the prediction of the death).
+
+
+      So, our new model is:
+      $$\mathbb{P}(Y=1\,|\, x)=\frac{1}{1+e^{-\beta' x}}\enspace ,$$
+      where \(\beta'x=\beta_0 + \beta_1 x_1 + \dots + \beta_p x_p\).
+
+    <p class="tips">When using this model in practice, most of the time you don't need to add a columns of \(1\)'s in
+      your dataset
+      for the intercept \(\beta_0\). It may come as an argument or is simply estimated automatically.
+      The exception being when using the <strong>statsmodels</strong> package in Python.</p>
+    </p>
+
+    <p align="justify">
+    As we're used to now, the goal is to maximise the log-likelihood of our model to estimate \(\beta\).
+
+
+
+  </p>
+
+  <iframe title="sigmoid" src="{{url_for('logreg_bp.static', filename='binary_classification.html')}}" style="border-width: 0px"
+  height="500px" width="100%"></iframe>
+
+    <a href="concept_logreg" class="previous">&laquo; Previous</a>
+    <a href="#" class="next">Next &raquo;</a>
+
+</div>
+
+
+{% endblock %}
