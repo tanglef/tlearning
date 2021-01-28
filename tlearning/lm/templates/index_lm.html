@@ -91,7 +91,8 @@
   <p align="justify">
     Of course, most of the time the data isn't linear. But the linear model is a base model and with the right
     transformations you can get represent a lot of situations. Below you can see an exponential trend with more
-    or less noise.
+    or less noise. This model can be estimated from the linear model thanks to the linear relation:
+    $$\log(y)=\beta_0 + \beta_1 x\Longleftrightarrow y=\exp(\beta_0 + \beta_1 x)\enspace .$$   
   </p>
   <iframe title="Exponential trend example" src="{{url_for('lm_bp.static', filename='exp_trend.html')}}"
     style="border-width: 0px" height="500px" width="100%"></iframe>
