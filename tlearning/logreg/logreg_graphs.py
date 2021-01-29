@@ -2,6 +2,7 @@ import numpy as np
 import os
 import plotly.graph_objects as go
 import plotly.express as px
+from plotly.subplots import make_subplots
 from sklearn.linear_model import LinearRegression, LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.datasets import make_classification
@@ -149,4 +150,25 @@ fig.update_layout(legend_orientation='h',
                   title='Classification with logistic regression using two features.')  # noqa
 fig.write_html(os.path.join(result_dir, "binary_classification.html"),
                auto_open=False,
+               include_plotlyjs="cdn", include_mathjax='cdn')
+
+
+###########################
+# Binary CE loss
+###########################
+
+
+prob = np.linspace(1e-4, 1-1e-4, num=100, endpoint=True)
+loss_y_1 = - np.log(prob)
+loss_y_0 = - np.log(1-prob)
+
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(x=prob, y=loss_y_1, name=r"y=1"))
+fig.add_trace(go.Scatter(x=prob, y=loss_y_0, name=r"y=0"))
+
+fig.update_layout(title_text="Cross entropy loss",
+                  xaxis_title="probability to belong in 1-y_i",
+                  yaxis_title=r"$l(y_i, x_i)$")
+fig.write_html(os.path.join(result_dir, "CE_loss.html"), auto_open=False,
                include_plotlyjs="cdn", include_mathjax='cdn')

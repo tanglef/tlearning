@@ -6,7 +6,12 @@
   <div id="Sidebar" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
     <a href="#variables">1. Binary classification with more variables</a><br />
-    <a style="margin-left: 2rem;" href="#softmax">1.1 The softmax function</a><br />
+    <a style="margin-left: 2rem;" href="#entropy">1.1 The cross entropy loss</a><br />
+    <a style="margin-left: 2rem;" href="#estimation">1.2 Parameters estimation</a><br />
+    <a href="#maths">2. A little more maths</a><br />
+    <a style="margin-left: 2rem;" href="#derivatives">2.1 Compute the gradient</a><br />
+    <a style="margin-left: 2rem;" href="#information">2.2 Information theory and Kullback-Leibler divergence</a><br />
+
 
 
   </div>
@@ -25,37 +30,104 @@
   <button class="openbtn" onclick="openNav()">☰ Contents</button>
 
   <h2 id="variables">Binary classification with more variables</h2>
-  <h3 id="softmax">The softmax function</h2>
-    <p align="justify">
-      As of now, we've only worked with \(1\) variable with a number of categories, which is quite limited.
-      Let's make another step towards the generalization and consider \(p\) variables \(x_1,\dots x_p\) in a dataset of
-      \(n\) rows.
-      The goal is to predict the category assigned to a subject (for example \(1=\)dead, \(0=\)alive if the interest if
-      the prediction of the death).
+
+  <p align="justify">
+    As of now, we've only worked with \(1\) variable with a number of categories, which is quite limited.
+    Let's make another step towards the generalization and consider \(p\) variables \(x_1,\dots x_p\) in a dataset of
+    \(n\) rows.
+    The goal is to predict the category assigned to a subject (for example \(1=\)dead, \(0=\)alive if the interest if
+    the prediction of the death).
 
 
-      So, our new model is:
-      $$\mathbb{P}(Y=1\,|\, x)=\frac{1}{1+e^{-\beta' x}}\enspace ,$$
-      where \(\beta'x=\beta_0 + \beta_1 x_1 + \dots + \beta_p x_p\).
+    So, our new model is:
+    $$\mathbb{P}(Y=1\,|\, x)=\frac{1}{1+e^{-\beta' x}}=\sigma(\beta'x)\enspace ,$$
+    where \(\beta'x=\beta_0 + \beta_1 x_1 + \dots + \beta_p x_p\).
 
-    <p class="tips">When using this model in practice, most of the time you don't need to add a columns of \(1\)'s in
-      your dataset
-      for the intercept \(\beta_0\). It may come as an argument or is simply estimated automatically.
-      The exception being when using the <strong>statsmodels</strong> package in Python.</p>
-    </p>
-
-    <p align="justify">
-    As we're used to now, the goal is to maximise the log-likelihood of our model to estimate \(\beta\).
-
-
-
+  <p class="tips">When using this model in practice, most of the time you don't need to add a columns of \(1\)'s in
+    your dataset
+    for the intercept \(\beta_0\). It may come as an argument or is simply estimated automatically.
+    The exception being when using the <strong>statsmodels</strong> package in Python.</p>
   </p>
 
-  <iframe title="sigmoid" src="{{url_for('logreg_bp.static', filename='binary_classification.html')}}" style="border-width: 0px"
-  height="500px" width="100%"></iframe>
+  <p align="justify">
+    As we're used to now, the goal is to maximise the log-likelihood of our model to estimate \(\beta\) and thus
+    the probability for an individual to belong to each class.
 
-    <a href="concept_logreg" class="previous">&laquo; Previous</a>
-    <a href="#" class="next">Next &raquo;</a>
+    For \(p=2\), this can lead to the following classification model.
+  </p>
+
+  <iframe title="sigmoid" src="{{url_for('logreg_bp.static', filename='binary_classification.html')}}"
+    style="border-width: 0px" height="500px" width="100%"></iframe>
+
+  <h3 id="entropy">The cross entropy loss</h3>
+  <p align="justify">
+    With a binary classification, on a training sample of size \(n\), \(Y\,|\,X \sim \mathcal{B}(\mathbb{P}(Y=1\,|\,
+    X))\), so:
+    $$ L(\beta)=\prod_{i=1}^n \sigma(\beta'x_i)^{y_i}(1-\sigma(\beta'x_i)^{1-y_i}\enspace .$$
+
+    So the log-likelihood is:
+
+    $$\log L(\beta)=\sum_{i=1}^n \underbrace{y_i\log(\sigma(\beta'x_i)) + (1-y_i)\log(1-\sigma(\beta'x_i))}_{-l(y_i,
+    x_i)}\enspace .$$
+
+    The function \(l\) is called the binary cross entropy loss. Let's see what it looks like. We trace \(2\) curves,
+    one if the true label is \(0\), the other for \(1\) and compute the loss when the probability to belong in the other
+    class increases. Note the symmetry, convexity and positivity.
+
+
+
+    <iframe title="CE_loss" src="{{url_for('logreg_bp.static', filename='CE_loss.html')}}" style="border-width: 0px"
+      height="500px" width="100%"></iframe>
+
+    As you can see, if \(y_i=0\) the cost if way higher when the probability to belong in the class \(1\) increases.
+    Of course the same thing appends if \(y_i=1\) and the probability to belong in \(0\) increases.
+  </p>
+
+  <h3 id="estimation">Parameters estimation</h3>
+  <p align="justify">
+    As previously said, the usual procedure is to maximise the log-likelihood to find \(\hat\beta\) the estimation of
+    \(\beta\).
+    However, maximizing the lok-likelihood in this case is the same as minimizing the global cost (sum of the cross
+    entropy costs), indeed:
+
+    $$\log L(\beta) = \sum_{i=1}^n -l(y_i, x_i) \Longleftrightarrow - \log L(\beta) = \sum_{i=1}^n l(y_i, x_i)\enspace
+    .$$
+
+    The main issue in this situation is that there is no closed form for the optimum. So we need a numerical
+    optimization algorithm to find it.
+    One way to do so is to use the gradient descent algorithm. We note the step \(\alpha >0\). <strong>(Soon a link to
+      an explaination of simple optimization algos hopefully)</strong>
+
+
+    <img
+      style="width: 50%;height: 430px;object-fit: cover;object-position: 20% 10%;display: block;margin-left: auto;margin-right: auto;"
+      src="./static/gradient_descent.svg" alt="Gradient descent scheme">
+
+    As you can see, the \(k^{th}\) iterate to estimate \(\beta\) is \(\beta_{k-1} - \sum_i
+    \underset{\beta}{\nabla}\alpha l(y_i, x_i)\). So, we need to compute
+    the gradient of this sum. And except for that, we're all good for our binary classification with \(p\) variables.
+  </p>
+
+  <h2 id="maths">A little more maths</h2>
+  We've got everything we need except maybe the most important: the remaining maths. And if you're only planning to use
+  logistic models you actually
+  don't really need to know the next part (but it would be a definite and encouraged plus so keep reading). There are a
+  lot of notions that can be adressed.
+  I chose to focus on two. The computation of the gradient and explain more deeply what is this loss (because cross
+  entropy is everything but a casual name)
+
+  <h3 id="derivatives">Compute the gradient</h3>
+  The computation of the gradient for the gradient descent is actually an exercise that is valuable for later use with
+  neural networks. Of course, we could just go in there with calculus and make our way through it but that is not very wise (and we're better than that, right?).
+  All we need actually, is the chain rule to make it way easier.
+
+
+  <h3 id="information">Information theory and Kullback-Leibler divergence</h3>
+
+
+
+  <a href="concept_logreg" class="previous">&laquo; Previous</a>
+  <a href="#" class="next">Next &raquo;</a>
 
 </div>
 
