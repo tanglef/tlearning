@@ -64,8 +64,6 @@ def logreg_multi():
 def predict_tch(idx_test):
     if idx_test == "":
         return 1
-    if idx_test[0] == "0":
-        return predict_tch(idx_test[1:])
     idx_test = int(idx_test)
     if idx_test >= 10000:
         return 1

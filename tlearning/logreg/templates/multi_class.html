@@ -35,7 +35,9 @@
     There are \(10\) labels and an equilibrated number of samples for each.
     The samples are images of \(32\times 32\) pixels, coded in RGB. Meaning that there are \(3\times 32^2 + 1\) parameters to
     adjust in this model. The goal for you is to simply write a number. The model will predict a label for the corresponding image
-    from the test set. Try a few and admire the quality of the images.
+    from the test set. Try a few and admire the quality of the images. Note that the overall accuracy for the test set is around \(35\%\). So it is totally normal for the model to be wrong.
+
+    <br>
     <div class="container">
         <div class="row h-200">
             <div class="col my-auto">
@@ -43,6 +45,7 @@
                 <div>
                     <form action="/logreg/multi_class" method="POST">
                         The number entered should be between 0 and 9999. If it is not, the default value is 1.
+                        <br>
                         <label for="num">Image number</label>
                         <input type="text" id="num" name="num">
                         <br>
@@ -51,8 +54,8 @@
                 </div>
             </div>
             <div class="col-8">
+                <br>
                 The predicted label is {{ prediction }} for index {{ index_ }}.
-                Note that the overall accuracy for the test set is around \(35\%\). So it is totally normal for the model to be wrong.
                 <div id="bck-img"></div>
                 <script type="text/javascript">
                     var container = document.getElementById("bck-img");
