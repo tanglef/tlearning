@@ -226,7 +226,7 @@
   Meaning that if we take someone from one of these categories, let's say \(3.5\) smokes, then they will develop a lung
   cancer with probability \(p_2\) that we want to estimate.
   The idea is to consider the model:
-  $$\mathrm{P}(Y=1\,|\, X=x)=\sigma(\beta_0 + \beta_1 x)=\frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1
+  $$\mathbb{P}(Y=1\,|\, X=x)=\sigma(\beta_0 + \beta_1 x)=\frac{e^{\beta_0 + \beta_1 x}}{1 + e^{\beta_0 + \beta_1
   x}}\enspace.$$
 
 
@@ -254,7 +254,7 @@
   <p align="justify">
     As you can see, the sigmoid goes quickly but smoothly from one asymptote to the other.
     The line \(y=\frac{1}{2}\) is important as it is where our boundary will be set.
-    Indeed, if \(\mathrm{P}(Y=1\,|\,x)>0.5)\), then we assign \(Y\) to \(1\), else \(0\) (the reversed situation is also
+    Indeed, if \(\mathbb{P}(Y=1\,|\,x)>0.5\), then we assign \(Y\) to \(1\), else \(0\) (the reversed situation is also
     true).
   </p>
 
@@ -267,7 +267,7 @@
     Let's pose our hypothesis:
   </p>
 
-  $$H_0:\sigma(\mathrm{P}(Y=1\,|\,X=x_c)):=\sigma(p_c)=\beta_0+\beta_1 x_c\quad vs\quad H_1:(p_1,\dots,p_C)\in
+  $$H_0:\sigma(\mathbb{P}(Y=1\,|\,X=x_c)):=\sigma(p_c)=\beta_0+\beta_1 x_c\quad vs\quad H_1:(p_1,\dots,p_C)\in
   ]0,1[^C\enspace.$$
 
   <p align="justify">
@@ -300,7 +300,7 @@
   </p>
 
   <p align="justify">
-    With a little sweat we now have the MLE of \(p_c\)under \(H_1\) and of \(\beta\) under \(H_0\). But using
+    With a little sweat we now have the MLE of \(p_c\) under \(H_1\) and of \(\beta\) under \(H_0\). But using
     \(\overset{\frown}{p_c}= \sigma(\overset{\frown}{\beta_0} + \overset{\frown}{\beta_1} x_c))\),
     we can recover the MLE under both tested hypothesis. So we have everythinig to make tests, estimations, confidence
     intervals\(\dots\)

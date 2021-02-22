@@ -10,7 +10,7 @@
     <a style="margin-left: 2rem;" href="#estimation">1.2 Parameters estimation</a><br />
     <a href="#maths">2. A little more maths</a><br />
     <a style="margin-left: 2rem;" href="#derivatives">2.1 Compute the gradient</a><br />
-    <a style="margin-left: 2rem;" href="#information">2.2 Information theory and Kullback-Leibler divergence</a><br />
+    <a style="margin-left: 2rem;" href="#labels">2.2 Changing the labels</a><br />
 
 
 
@@ -63,7 +63,7 @@
   <p align="justify">
     With a binary classification, on a training sample of size \(n\), \(Y\,|\,X \sim \mathcal{B}(\mathbb{P}(Y=1\,|\,
     X))\), so:
-    $$ L(\beta)=\prod_{i=1}^n \sigma(\beta'x_i)^{y_i}(1-\sigma(\beta'x_i)^{1-y_i}\enspace .$$
+    $$ L(\beta)=\prod_{i=1}^n \sigma(\beta'x_i)^{y_i}(1-\sigma(\beta'x_i))^{1-y_i}\enspace .$$
 
     So the log-likelihood is:
 
@@ -109,20 +109,51 @@
   </p>
 
   <h2 id="maths">A little more maths</h2>
-  We've got everything we need except maybe the most important: the remaining maths. And if you're only planning to use
-  logistic models you actually
-  don't really need to know the next part (but it would be a definite and encouraged plus so keep reading). There are a
-  lot of notions that can be adressed.
-  I chose to focus on two. The computation of the gradient and explain more deeply what is this loss (because cross
-  entropy is everything but a casual name)
-
+  <p align="justify">
+    We've got everything we need except maybe the most important: the remaining maths. And if you're only planning to
+    use
+    logistic models you actually
+    don't really need to know the next part (but it would be a definite and encouraged plus so keep reading). There are
+    a
+    lot of notions that can be adressed.
+    I chose to focus on two. The computation of the gradient and explain more deeply what is this loss (because cross
+    entropy is everything but a casual name)
+  </p>
   <h3 id="derivatives">Compute the gradient</h3>
-  The computation of the gradient for the gradient descent is actually an exercise that is valuable for later use with
-  neural networks. Of course, we could just go in there with calculus and make our way through it but that is not very wise (and we're better than that, right?).
-  All we need actually, is the chain rule to make it way easier.
+  <p align="justify">
+    The computation of the gradient for the gradient descent is actually an exercise that is valuable for later use with
+    neural networks. Of course, we could just go in there with calculus and make our way through it but that is not very
+    wise (and we're better than that, right?).
+    All we need actually, is the chain rule to make it way easier.
 
+    Indeed, let's fix an index \(j\), then:
+    $$\frac{\partial l}{\partial \beta_j}(y, x)=\frac{\partial l(y, x)}{\partial z}\frac{\partial z}{\partial
+    u}\frac{\partial u}{\partial \beta_j},$$
+    with \(u=\beta'x\) and \(z=\sigma(u)\). Each of these derivatives are simple to compute, and we thus get
+    $$\frac{\partial l}{\partial \beta_j}(y, x) = \left[\frac{y}{z} - \frac{1-y}{1-z}\right]\sigma(u)(1-\sigma(u))
+    x_j = (y-\sigma(\beta'x))x_j\enspace.$$
 
-  <h3 id="information">Information theory and Kullback-Leibler divergence</h3>
+    We finally have all the tools to update our iterates in the gradient descent without brute force.
+  </p>
+
+  <h3 id="labels">Changing the labels</h3>
+  <p align="justify">
+    As of now, we used mainly the fact that \(Y\in \{0, 1\}\). But that is just a convention that leads us to use a
+    binomial distribution.
+    In fact, sometimes it can be more useful to use the convention \(Y\in \{-1, 1\}\), the "almost" binomial. Why that ?
+    Because of the properties
+    of the sigmoid function. We of course keep our model: \(\mathbb{P}(Y=1\,|\, X=x)=\sigma(\beta'x)\). But notice that
+    \(\mathbb{P}(Y=-1\,|\, X=x)=\sigma(-\beta'x)\).
+
+    Thus we know the conditional distribution, for \(y\in\{\pm 1\}\), $$\mathbb{P}(Y=y\,|\, X=x)=\sigma(y\beta'x)
+    \enspace.$$
+    Speeding things a little, it is direct to show that the log-likelihood of this model is:
+    $$\log L(\beta)=-\sum_{i=1}^n \underbrace{\log\left(1+\exp\{-y_i\beta'x_i\}\right)}_{J(y_i, x_i)}\enspace.$$
+    And we can still use the gradient desent to minimize \(J\). Using the chain rule, for a fixed index \(j\), we have
+    that
+    $$\frac{\partial J(y, x)}{\partial \beta_j}=-\sigma(y\beta'x)yx \enspace.$$
+  </p>
+
 
 
 
