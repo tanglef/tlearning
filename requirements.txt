@@ -6,3 +6,5 @@ python-dotenv
 gunicorn
 plotly
 statsmodels
+torch
+matplotlib

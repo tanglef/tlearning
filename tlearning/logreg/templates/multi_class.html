@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+<div id="main">
+
+    {% block content %}
+    <h1> {% block title %} The logistic regression {% endblock %}</h1>
+    <div id="Sidebar" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="#multi">1. Logistic regression with multiple classes</a><br />
+
+
+    </div>
+    {% block head %}
+    <!-- disable caching for THIS PAGE ONLY !-->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        TeX: {
+           equationNumbers: {  autoNumber: "AMS"  },
+           extensions: ["AMSmath.js", "AMSsymbols.js", "autobold.js", "color.js"]
+        }
+      });
+  </script>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    {% endblock %}
+    <button class="openbtn" onclick="openNav()">☰ Contents</button>
+
+    <h2 id="multi">Logistic regression with multiple classes</h2>
+
+    <h2 id="test">Try it yourself</h2>
+    Here, we trained a logistic regression on the dataset CIFAR10.
+    There are \(10\) labels and an equilibrated number of samples for each.
+    The samples are images of \(32\times 32\) pixels, coded in RGB. Meaning that there are \(3\times 32^2 + 1\) parameters to
+    adjust in this model. The goal for you is to simply write a number. The model will predict a label for the corresponding image
+    from the test set. Try a few and admire the quality of the images.
+    <div class="container">
+        <div class="row h-200">
+            <div class="col my-auto">
+
+                <div>
+                    <form action="/logreg/multi_class" method="POST">
+                        The number entered should be between 0 and 9999. If it is not, the default value is 1.
+                        <label for="num">Image number</label>
+                        <input type="text" id="num" name="num">
+                        <br>
+                        <input type="submit" value="Submit">
+                    </form>
+                </div>
+            </div>
+            <div class="col-8">
+                The predicted label is {{ prediction }} for index {{ index_ }}.
+                Note that the overall accuracy for the test set is around \(35\%\). So it is totally normal for the model to be wrong.
+                <div id="bck-img"></div>
+                <script type="text/javascript">
+                    var container = document.getElementById("bck-img");
+                    var image = document.createElement("img");
+                    image.setAttribute("src", "{{url_for('logreg_bp.static', filename='cifar_img.png')}}?rand=" + new Date().getTime());
+                    container.appendChild(image);
+                </script>
+
+            </div>
+        </div>
+    </div>
+
+    <a href="classification" class="previous">&laquo; Previous</a>
+    <a href="#" class="next">Next &raquo;</a>
+
+</div>
+
+
+{% endblock %}

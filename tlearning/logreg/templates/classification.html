@@ -151,14 +151,11 @@
     $$\log L(\beta)=-\sum_{i=1}^n \underbrace{\log\left(1+\exp\{-y_i\beta'x_i\}\right)}_{J(y_i, x_i)}\enspace.$$
     And we can still use the gradient desent to minimize \(J\). Using the chain rule, for a fixed index \(j\), we have
     that
-    $$\frac{\partial J(y, x)}{\partial \beta_j}=-\sigma(y\beta'x)yx \enspace.$$
+    $$\frac{\partial J(y, x)}{\partial \beta_j}=-\sigma(y\beta'x)y_jx_j \enspace.$$
   </p>
 
-
-
-
   <a href="concept_logreg" class="previous">&laquo; Previous</a>
-  <a href="#" class="next">Next &raquo;</a>
+  <a href="multi_class" class="next">Next &raquo;</a>
 
 </div>
 
