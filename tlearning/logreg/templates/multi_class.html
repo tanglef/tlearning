@@ -42,8 +42,8 @@
         that for more categories? Well, that's precisely what the \(\mathrm{softmax}\) function does. Let's say we have
         \(C\) classes.
         This function, also noted \(\sigma\) is defined as:
-        $$\sigma(u)=\left(\frac{e^{-\beta'u_1}}{\sum_{j=1}^C e^{-\beta'u_j}},\dots,\frac{e^{-\beta'u_C}}{\sum_{j=1}^C
-        e^{-\beta'u_j}}, \right)\enspace, $$
+        $$\sigma(u)=\left(\frac{e^{u_1}}{\sum_{j=1}^C e^{u_j}},\dots,\frac{e^{u_C}}{\sum_{j=1}^C
+        e^{u_j}}, \right)\enspace, $$
         with \(u\in\mathbb{R}^C\).
 
         The softmax function takes a vector in \(\mathbb{R}^C\) and returns another vector of the same size.
@@ -111,9 +111,11 @@
     never very far away. So using the softmax is quite a risk as we divide by a sum of exponential terms.
     A way to overcome this issue is to use the log-sum-exp function, noted \(LSE\) for short.
 
-    The \(LSE\) function is simply: \(LSE(x)=\log(\sum_{i=1}^n e^{x_i})\). It's link with the softmax function is quite direct as:
+    The \(LSE\) function is simply: \(LSE(x)=\log(\sum_{i=1}^n e^{x_i})\). It's link with the softmax function is quite
+    direct as:
 
     $$\frac{\partial LSE}{\partial x_{i_0}}(x)=\frac{e^{x_{i_0}}}{\sum_{i=1}^n e^{x_i}}=\sigma(x)_{i_0} \enspace.$$
+
 
     <a href="classification" class="previous">&laquo; Previous</a>
     <a href="#" class="next">Next &raquo;</a>
