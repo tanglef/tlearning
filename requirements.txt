@@ -6,6 +6,5 @@ python-dotenv
 gunicorn
 plotly
 statsmodels
-https://download.pytorch.org/whl/cpu/torch-1.5.1%2Bcpu-cp36-cp36m-linux_x86_64.whl
-https://download.pytorch.org/whl/cpu/torchvision-0.6.1%2Bcpu-cp36-cp36m-linux_x86_64.whl
 matplotlib
+torch==1.7.1+cpu torchvision==0.8.2+cpu -f https://download.pytorch.org/whl/torch_stable.html
