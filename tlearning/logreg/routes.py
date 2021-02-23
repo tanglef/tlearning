@@ -44,13 +44,13 @@ def logreg_multi():
     """Multi-class logreg classification."""
     if request.method == 'POST':
         idx_to_predict = request.form.to_dict()
-        class_label = predict_tch(int(idx_to_predict["num"]))
+        class_label, new_index = predict_tch(idx_to_predict["num"])
         return render_template(
             'multi_class.html',
             title='Multi class code page',
             template='logreg-template',
             prediction=class_label,
-            index_=int(idx_to_predict["num"])
+            index_=new_index
         )
     return render_template(
         'multi_class.html',
@@ -63,10 +63,13 @@ def logreg_multi():
 
 def predict_tch(idx_test):
     if idx_test == "":
-        return 1
-    idx_test = int(idx_test)
+        return "None", 1
+    try:
+        idx_test = int(idx_test)
+    except ValueError:
+        return "None", 1
     if idx_test >= 10000:
-        return 1
+        return "None", 1
     else:
         path_model = os.path.join(file_dir, "models_code", 'data',
                                   'tch_model.pth')
@@ -88,7 +91,7 @@ def predict_tch(idx_test):
         plt.imshow(np.transpose(npimg, (1, 2, 0)))
         plt.axis('off')
         plt.savefig(os.path.join(path_save, "cifar_img.png"))
-        return classes[predicted]
+        return classes[predicted], idx_test
 
 
 # @logreg_bp.route('/logreg/playing_logreg', methods=['GET'])

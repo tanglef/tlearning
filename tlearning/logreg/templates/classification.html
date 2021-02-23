@@ -75,12 +75,14 @@
     class increases. Note the symmetry, convexity and positivity.
 
 
-
     <iframe title="CE_loss" src="{{url_for('logreg_bp.static', filename='CE_loss.html')}}" style="border-width: 0px"
       height="500px" width="100%"></iframe>
 
     As you can see, if \(y_i=0\) the cost if way higher when the probability to belong in the class \(1\) increases.
     Of course the same thing appends if \(y_i=1\) and the probability to belong in \(0\) increases.
+
+    Note that by developing the sum, the log likelihood can also be written as:
+    $$\log L(\beta)=\sum_{i=1}^n -\log(1 + \exp(\beta'(x_i)) + y_i\beta'x_i\enspace. $$
   </p>
 
   <h3 id="estimation">Parameters estimation</h3>

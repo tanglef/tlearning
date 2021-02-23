@@ -6,6 +6,9 @@
     <div id="Sidebar" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <a href="#multi">1. Logistic regression with multiple classes</a><br />
+        <a href="#test">2. Try it yourself</a><br />
+        <a href="#softmax">3. The trick with the softmax function </a><br />
+
 
 
     </div>
@@ -30,12 +33,43 @@
 
     <h2 id="multi">Logistic regression with multiple classes</h2>
 
+    <p align="justify">
+        The thing is, binary classification, in \(\{\pm 1\}\) or \(\{0,1\}\), is quite restrictive.
+        In many applications it is enough (dead/alive, animal/machine, safe/dangerous, etc). However, it can also
+        be very useful to classify more than two categories, for example dog/cat/sheep/\(\dots\).
+
+        The main tool for the binary classification was the sigmoid function. Shouldn't it be great to adapt
+        that for more categories? Well, that's precisely what the \(\mathrm{softmax}\) function does. Let's say we have
+        \(C\) classes.
+        This function, also noted \(\sigma\) is defined as:
+        $$\sigma(u)=\left(\frac{e^{-\beta'u_1}}{\sum_{j=1}^C e^{-\beta'u_j}},\dots,\frac{e^{-\beta'u_C}}{\sum_{j=1}^C
+        e^{-\beta'u_j}}, \right)\enspace, $$
+        with \(u\in\mathbb{R}^C\).
+
+        The softmax function takes a vector in \(\mathbb{R}^C\) and returns another vector of the same size.
+        However, thanks to the normalization by the sum, the output is actually a distribution. And in the logistic
+        regression, we use it as the probability a posteriori to be in class \(c\in \{1,\dots, C\}\). So the model
+        is now:
+
+        $$\mathbb{P}(Y=c\,|\, X=x)=\frac{e^{\beta_c'x}}{\sum_{k=1}^C e^{\beta_k'x}} \enspace.$$
+
+        What does this mean in practice? For a dataset of \(p\) features, the goal is now to estimate \(p+1\) parameters
+        for each class.
+        This means a total of \(C(p+1)\) parameters to estimate through the optimization method of your choice.
+        This can quickly be a lot (quite a lot).
+
+    </p>
+
+
     <h2 id="test">Try it yourself</h2>
     Here, we trained a logistic regression on the dataset CIFAR10.
     There are \(10\) labels and an equilibrated number of samples for each.
-    The samples are images of \(32\times 32\) pixels, coded in RGB. Meaning that there are \(3\times 32^2 + 1\) parameters to
-    adjust in this model. The goal for you is to simply write a number. The model will predict a label for the corresponding image
-    from the test set. Try a few and admire the quality of the images. Note that the overall accuracy for the test set is around \(35\%\). So it is totally normal for the model to be wrong.
+    The samples are images of \(32\times 32\) pixels, coded in RGB. Meaning that there are \(3\times 32^2 + 1\)
+    parameters to
+    adjust in this model. The goal for you is to simply write a number. The model will predict a label for the
+    corresponding image
+    from the test set. Try a few and admire the quality of the images. Note that the overall accuracy for the test set
+    is around \(35\%\). So it is totally normal for the model to be wrong.
 
     <br>
     <div class="container">
@@ -44,7 +78,10 @@
 
                 <div>
                     <form action="/logreg/multi_class" method="POST">
-                        The number entered should be between 0 and 9999. If it is not, the default value is 1.
+                        <p>
+                            The number entered should be between 0 and 9999. If it is not, the default value is 1 with
+                            an image that does not correspond.
+                        </p>
                         <br>
                         <label for="num">Image number</label>
                         <input type="text" id="num" name="num">
@@ -67,6 +104,16 @@
             </div>
         </div>
     </div>
+
+    <h2 id="softmax">The trick with the softmax function </h2>
+
+    If you've ever manipulated the exponential function, the issue computationnaly is that the overflow/underflow is
+    never very far away. So using the softmax is quite a risk as we divide by a sum of exponential terms.
+    A way to overcome this issue is to use the log-sum-exp function, noted \(LSE\) for short.
+
+    The \(LSE\) function is simply: \(LSE(x)=\log(\sum_{i=1}^n e^{x_i})\). It's link with the softmax function is quite direct as:
+
+    $$\frac{\partial LSE}{\partial x_{i_0}}(x)=\frac{e^{x_{i_0}}}{\sum_{i=1}^n e^{x_i}}=\sigma(x)_{i_0} \enspace.$$
 
     <a href="classification" class="previous">&laquo; Previous</a>
     <a href="#" class="next">Next &raquo;</a>
