@@ -106,17 +106,41 @@
     </div>
 
     <h2 id="softmax">The trick with the softmax function </h2>
+    <p align="justify">
+        If you've ever manipulated the exponential function, the issue computationnaly is that the overflow/underflow is
+        never very far away. So using the softmax is quite a risk as we divide by a sum of exponential terms.
+        A way to overcome this issue is to use the log-sum-exp function, noted \(LSE\) for short.
 
-    If you've ever manipulated the exponential function, the issue computationnaly is that the overflow/underflow is
-    never very far away. So using the softmax is quite a risk as we divide by a sum of exponential terms.
-    A way to overcome this issue is to use the log-sum-exp function, noted \(LSE\) for short.
+        The \(LSE\) function is simply: \(LSE(x)=\log(\sum_{i=1}^n e^{x_i})\). It's link with the softmax function is
+        quite
+        direct as:
 
-    The \(LSE\) function is simply: \(LSE(x)=\log(\sum_{i=1}^n e^{x_i})\). It's link with the softmax function is quite
-    direct as:
+        $$\frac{\partial LSE}{\partial x_{i_0}}(x)=\frac{e^{x_{i_0}}}{\sum_{i=1}^n e^{x_i}}=\sigma(x)_{i_0} \enspace.$$
 
-    $$\frac{\partial LSE}{\partial x_{i_0}}(x)=\frac{e^{x_{i_0}}}{\sum_{i=1}^n e^{x_i}}=\sigma(x)_{i_0} \enspace.$$
+        But it's not the only link, and the one that is the most interesting for us is the following:
 
+        $$\log(\sigma(x)_j)=x_j - LSE(x) \enspace.$$
 
+        Why is this so important? Recall that for any real \(b\), we have \(e^x=e^{x-b}e^b\). So it can be applied to
+        the function log-sum-exp,
+        \(LSE(x)=b + LSE(x-b).\) The choice of \(b=\max_{i} x_i\) lets us avoid the computational issues for the
+        overflow, as doing so
+        makes us compute at most the value for \(e^0=1\). This is useful when we want to compute the logarithm of the
+        probability, but
+        what about the probability itself? Because surely, if we have to do another exponentiation after it might ruin
+        all the work.
+        Well, the softmax function is defined with exponentials, so we can use the exponential function properties:
+
+        $$
+        \begin{aligned}
+        \sigma(x)_j & = \frac{e^{x_j}}{\sum_i e^{x_i}} = \frac{e^b e^{x_j-b}}{\sum_i e^b e^{x_i - b}} \\
+        & = \frac{e^{x_j - b}}{\sum_i e^{x_i -b}} \enspace,
+        \end{aligned}
+        $$
+
+        so once again, taking \(b=\max_i x_i\) prevents any overflow in the computation. With a simple property,
+        we gain a lot.
+    </p>
     <a href="classification" class="previous">&laquo; Previous</a>
     <a href="#" class="next">Next &raquo;</a>
 
