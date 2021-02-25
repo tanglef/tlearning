@@ -6,6 +6,8 @@
     <div id="Sidebar" class="sidenav">
         <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
         <a href="#multi">1. Logistic regression with multiple classes</a><br />
+        <a style="margin-left: 2rem;" href="#model">1.1 Making the model</a><br />
+        <a style="margin-left: 2rem;" href="#loss">1.2 Cross entropy loss</a><br />
         <a href="#test">2. Try it yourself</a><br />
         <a href="#softmax">3. The trick with the softmax function </a><br />
 
@@ -32,7 +34,7 @@
     <button class="openbtn" onclick="openNav()">☰ Contents</button>
 
     <h2 id="multi">Logistic regression with multiple classes</h2>
-
+    <h3 id="model">Making the model</h3>
     <p align="justify">
         The thing is, binary classification, in \(\{\pm 1\}\) or \(\{0,1\}\), is quite restrictive.
         In many applications it is enough (dead/alive, animal/machine, safe/dangerous, etc). However, it can also
@@ -56,8 +58,27 @@
         What does this mean in practice? For a dataset of \(p\) features, the goal is now to estimate \(p+1\) parameters
         for each class.
         This means a total of \(C(p+1)\) parameters to estimate through the optimization method of your choice.
-        This can quickly be a lot (quite a lot).
+        This can quickly be a lot (quite a lot). Fortunatly for us, we are looking for a distribution. The sum of
+        the outputs must be equal to \(1\). Thus, by estimating the probability to belong in all the \(C-1\) categories,
+        we know that the last probability is simply \(1-\sum_{c=1}^{C-1} \mathbb{P}(Y=c\,|\, X)\). So when
+        doing this approach called one-vs-all, we actually only need to estimate \((C-1)\times(p+1)\) parameters.
 
+    </p>
+
+    <h3 id="loss">Cross entropy loss</h3>
+    <p align="justify">
+    We have the model, but how do we train it? More precisely, how can we adapt the binary cross entropy loss to a non-binary situation.
+    Well in term of terms, we simply use the cross entropy loss (pretty easy, just remove the binary). In term of maths, let \(\hat p\) be
+    our estimation and \(p\) the vector of ones in the class \(c\) and zero elsewhere. Then our loss writes:
+
+    $$ H(p, \hat p) = - \sum_{i=1}^C p_i \log(\hat{p}_i = -\log(\hat{p}_c \enspace .$$
+
+    Here, we strongly use the convention \(0\log(0)=0\) by considering the limit and not the function evaluated at \(0\).
+    </p>
+    <p align="justify">
+    Note that just as in the binary case, minimizing the loss is the same as maximizing the log-likelihood.
+    And one more thing, this loss is convex, but not strictly convex. And we don't have the strong part because of the over-parametrization.
+    Using a regularization like a \(l_2\) penalty lets us recover the strict convexity.
     </p>
 
 
@@ -138,8 +159,8 @@
         \end{aligned}
         $$
 
-        so once again, taking \(b=\max_i x_i\) prevents any overflow in the computation. With a simple property,
-        we gain a lot.
+        so once again, taking \(b=\max_i x_i\) prevents any overflow in the computation. 
+        This property of the softmax function is called invariance by translation.
     </p>
     <a href="classification" class="previous">&laquo; Previous</a>
     <a href="#" class="next">Next &raquo;</a>
