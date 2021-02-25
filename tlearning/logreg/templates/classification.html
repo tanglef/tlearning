@@ -132,8 +132,8 @@
     $$\frac{\partial l}{\partial \beta_j}(y, x)=\frac{\partial l(y, x)}{\partial z}\frac{\partial z}{\partial
     u}\frac{\partial u}{\partial \beta_j},$$
     with \(u=\beta'x\) and \(z=\sigma(u)\). Each of these derivatives are simple to compute, and we thus get
-    $$\frac{\partial l}{\partial \beta_j}(y, x) = \left[\frac{y}{z} - \frac{1-y}{1-z}\right]\sigma(u)(1-\sigma(u))
-    x_j = (y-\sigma(\beta'x))x_j\enspace.$$
+    $$\frac{\partial l}{\partial \beta_j}(y, x) = -\left[\frac{y}{z} - \frac{1-y}{1-z}\right]\sigma(u)(1-\sigma(u))
+    x_j = -(y-\sigma(\beta'x))x_j\enspace.$$
 
     We finally have all the tools to update our iterates in the gradient descent without brute force.
   </p>

@@ -71,7 +71,7 @@
     Well in term of terms, we simply use the cross entropy loss (pretty easy, just remove the binary). In term of maths, let \(\hat p\) be
     our estimation and \(p\) the vector of ones in the class \(c\) and zero elsewhere. Then our loss writes:
 
-    $$ H(p, \hat p) = - \sum_{i=1}^C p_i \log(\hat{p}_i = -\log(\hat{p}_c \enspace .$$
+    $$ H(p, \hat p) = - \sum_{i=1}^C p_i \log(\hat{p}_i) = -\log(\hat{p}_c) \enspace .$$
 
     Here, we strongly use the convention \(0\log(0)=0\) by considering the limit and not the function evaluated at \(0\).
     </p>
