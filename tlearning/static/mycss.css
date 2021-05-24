@@ -1,0 +1,161 @@
+body {
+    counter-reset: section
+}
+
+h2 {
+    counter-reset: sub-section
+}
+
+h3 {
+    counter-reset: composite
+}
+
+h4 {
+    counter-reset: detail
+}
+
+h2:before {
+    counter-increment: section;
+    content: counter(section) " ";
+}
+
+h3:before {
+    counter-increment: sub-section;
+    content: counter(section) "."counter(sub-section) " ";
+}
+
+h4:before {
+    counter-increment: composite;
+    content: counter(section) "."counter(sub-section) "."counter(composite) " ";
+}
+
+h5:before {
+    counter-increment: detail;
+    content: counter(section) "."counter(sub-section) "."counter(composite) "."counter(detail) " ";
+}
+
+
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+.openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    background-color: #111;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    position: absolute;
+    top: 0;
+    right: 25px;
+}
+
+.openbtn:hover {
+    background-color: #444;
+}
+
+
+.sidenav {
+    margin: 0;
+    padding-top: 50px;
+    top: 50px;
+    left: 0;
+    width: 200px;
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    background-color: #ffffff;
+    transition: 0.5s;
+}
+
+.sidenav a:hover {
+    color: rgba(60, 155, 233, 0.315);
+}
+
+.main {
+    margin: auto;
+    margin-left: 200px;
+    padding: 1px 16px;
+    height: 1000px;
+}
+
+@media screen and (max-width: 900px) {
+    .sidenav {
+        width: 100%;
+        height: auto;
+        width: auto;
+        padding-top: 0;
+        top: 0;
+        position: relative;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .sidenav a {
+        float: none;
+        width: auto;
+        margin-bottom: 0;
+    }
+    div.main {margin-left: 0;}
+}
+
+@media screen and (max-width: 400px) {
+    .sidenav {
+        text-align: center;
+        float: none;
+    }
+}
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.previous {
+    width: 200px;
+    background-color: #f1f1f1;
+    color: black;
+    margin: auto;
+    text-decoration: none;
+    text-align: center;
+    justify-content: center;
+    display: block;
+}
+
+.next {
+    width: 200px;
+    background-color: #19b8e7;
+    color: white;
+    margin: auto;
+    text-decoration: none;
+    text-align: center;
+    justify-content: center;
+    display: block;
+}
+
+p.tips
+    {
+        background-color: #f0f7fb;
+        background-image: url(./tips.png);
+        background-position: left;
+        background-repeat: no-repeat;
+        border-left: solid 4px #3498db;
+        background-size: 70px 70px;
+        line-height: 18px;
+        overflow: hidden;
+        padding: 30px 80px;
+    }
+
+
+.container{
+    width: 75% !important;
+    max-width: 100% !important;
+}

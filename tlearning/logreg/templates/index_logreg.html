@@ -4,11 +4,11 @@
   {% block content %}
   <h1> {% block title %} The logistic regression {% endblock %}</h1>
   <div id="Sidebar" class="sidenav">
-    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="closewithin">×</a>
     <a href="#inline">1. Regression with a contingency table</a><br />
     <a style="margin-left: 2rem;" href="#sigmoid">1.1 Introducing the sigmoid function</a><br />
     <a href="#inference">2 Testing the model</a><br />
-    <a style="margin-left: 2rem;" href="#MLE">2.1 Maximul likelihood estimator</a><br />
+    <a style="margin-left: 2rem;" href="#MLE">2.1 Maximum likelihood estimator</a><br />
     <a style="margin-left: 2rem;" href="#test">2.2 Deviance test</a><br />
 
   </div>
@@ -24,7 +24,8 @@
 
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   {% endblock %}
-  <button class="openbtn" onclick="openNav()">☰ Contents</button>
+  <button class="openbtn" onclick="openNav()" id="open">☰ Contents</button>
+  <button class="openbtn" onclick="closeNav()" id="close">☰ Contents</button>
 
   <h2 id="inline">Regression with a contingency table</h2>
   <p align="justify">
@@ -272,7 +273,7 @@
 
   <p align="justify">
     The first thing to do here is compute the likelihood:
-    $$\begin{aligned}
+    $$\begin{aligned}close
     \mathcal{L}(p) &= \prod_{i=1}^n \text{density of}(Y_i\,|\, X=x_c)\\
     &= \prod_{c=1}^C \prod_{j=1}^{n_c} p_c^{Y_j\,|\,X=x_c}(1-p_c)^{1-Y_j\,|\,X=x_c}\\
     &= \prod_{c=1}^C p_c^{\sum_j Y_j\,|\,X=x_c}(1-p_c)^{n_c - \sum_j Y_j\,|\,X=x_c}

@@ -4,7 +4,7 @@
     {% block content %}
     <h1> {% block title %} The logistic regression {% endblock %}</h1>
     <div id="Sidebar" class="sidenav">
-        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="closewithin">×</a>
         <a href="#multi">1. Logistic regression with multiple classes</a><br />
         <a style="margin-left: 2rem;" href="#model">1.1 Making the model</a><br />
         <a style="margin-left: 2rem;" href="#loss">1.2 Cross entropy loss</a><br />
@@ -31,7 +31,8 @@
 
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     {% endblock %}
-    <button class="openbtn" onclick="openNav()">☰ Contents</button>
+    <button class="openbtn" onclick="closeNav()" id="close">☰ Contents</button>
+    <button class="openbtn" onclick="openNav()" id="open">☰ Contents</button>
 
     <h2 id="multi">Logistic regression with multiple classes</h2>
     <h3 id="model">Making the model</h3>
@@ -159,7 +160,7 @@
         \end{aligned}
         $$
 
-        so once again, taking \(b=\max_i x_i\) prevents any overflow in the computation. 
+        so once again, taking \(b=\max_i x_i\) prevents any overflow in the computation.
         This property of the softmax function is called invariance by translation.
     </p>
     <a href="classification" class="previous">&laquo; Previous</a>

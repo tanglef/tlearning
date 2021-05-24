@@ -5,7 +5,7 @@
 
 <h1> {% block title %} The linear model {% endblock %}</h1>
 <div id="Sidebar" class="sidenav">
-  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()" id="closewithin">×</a>
     <a href="#inline">1. What is a linear model?</a><br />
     <a style="margin-left: 2rem;" href="#simple">1.1 A simple case</a><br />
     <a style="margin-left: 2rem;" href="#noised">1.2. Add some noise </a><br />
@@ -26,7 +26,8 @@
   src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
 {% endblock %}
 
-<button class="openbtn" onclick="openNav()">☰ Contents</button>
+<button class="openbtn" onclick="openNav()" id="open">☰ Contents</button>
+<button class="openbtn" onclick="closeNav()" id="close">☰ Contents</button>
 
   <h2 id="inline">What is a linear model?</h2>
   <h3 id="simple">A simple case</h3>
@@ -92,7 +93,7 @@
     Of course, most of the time the data isn't linear. But the linear model is a base model and with the right
     transformations you can get represent a lot of situations. Below you can see an exponential trend with more
     or less noise. This model can be estimated from the linear model thanks to the linear relation:
-    $$\log(y)=\beta_0 + \beta_1 x\Longleftrightarrow y=\exp(\beta_0 + \beta_1 x)\enspace .$$   
+    $$\log(y)=\beta_0 + \beta_1 x\Longleftrightarrow y=\exp(\beta_0 + \beta_1 x)\enspace .$$
   </p>
   <iframe title="Exponential trend example" src="{{url_for('lm_bp.static', filename='exp_trend.html')}}"
     style="border-width: 0px" height="500px" width="100%"></iframe>

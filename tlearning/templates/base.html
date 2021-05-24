@@ -10,142 +10,9 @@
   <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
   <script type="text/javascript" async
     src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML">
-    </script>
+  </script>
   <!--Number headings-->
-  <style>
-    body {
-      counter-reset: section
-    }
-
-    h2 {
-      counter-reset: sub-section
-    }
-
-    h3 {
-      counter-reset: composite
-    }
-
-    h4 {
-      counter-reset: detail
-    }
-
-    h2:before {
-      counter-increment: section;
-      content: counter(section) " ";
-    }
-
-    h3:before {
-      counter-increment: sub-section;
-      content: counter(section) "."counter(sub-section) " ";
-    }
-
-    h4:before {
-      counter-increment: composite;
-      content: counter(section) "."counter(sub-section) "."counter(composite) " ";
-    }
-
-    h5:before {
-      counter-increment: detail;
-      content: counter(section) "."counter(sub-section) "."counter(composite) "."counter(detail) " ";
-    }
-  </style>
-
-  <!-- Sidebar and buttons -->
-  <style>
-    .sidenav {
-      height: 100%;
-      width: 0px;
-      position: fixed;
-      z-index: 1;
-      top: 50px;
-      left: 30px;
-      background-color: #ffffff;
-      overflow-x: hidden;
-      overflow-y: auto;
-      transition: 0.5s;
-      padding-top: 60px;
-    }
-
-    .sidenav a {
-      padding: 8px 8px 8px 32px;
-      text-decoration: none;
-      font-size: 25px;
-      color: #818181;
-      display: block;
-      transition: 0.3s;
-    }
-
-    .sidenav a:hover {
-      color: #f1f1f1;
-    }
-
-    /* Position and style the close button (top right corner) */
-    .sidenav .closebtn {
-      position: absolute;
-      top: 0;
-      right: 25px;
-      font-size: 36px;
-      margin-left: 50px;
-    }
-
-    /* The button used to open the sidebar */
-    .openbtn {
-      font-size: 20px;
-      cursor: pointer;
-      background-color: #111;
-      color: white;
-      padding: 10px 15px;
-      border: none;
-      position: absolute;
-      top: 0;
-      right: 25px;
-    }
-
-    .openbtn:hover {
-      background-color: #444;
-    }
-
-    /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-    #main {
-      transition: margin-left .5s;
-      padding: 20px
-    }
-
-    .previous {
-      width: 200px;
-      background-color: #f1f1f1;
-      color: black;
-      margin: auto;
-      text-decoration: none;
-      text-align: center;
-      justify-content: center;
-      display: block;
-    }
-
-    .next {
-      width: 200px;
-      background-color: #19b8e7;
-      color: white;
-      margin: auto;
-      text-decoration: none;
-      text-align: center;
-      justify-content: center;
-      display: block;
-    }
-
-    p.tips
-      {
-           background-color: #f0f7fb;
-           background-image: url(../static/tips.png);
-           background-position: left;
-           background-repeat: no-repeat;
-           border-left: solid 4px #3498db;
-           background-size: 70px 70px;
-           line-height: 18px;
-           overflow: hidden;
-           padding: 30px 80px;
-      }
-  </style>
+  <link href="../static/mycss.css" rel="stylesheet" />
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
@@ -186,7 +53,9 @@
     </div>
   </nav>
   <div class="container">
+    <div id="main">
     {% block content %} {% endblock %}
+    </div>
   </div>
 
   <!-- Optional JavaScript -->
@@ -201,14 +70,41 @@
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
   <script>
+    var openbtn = document.getElementById("open");
+    var closebtn = document.getElementById("close");
+    var closewithin = document.getElementById("closewithin");
+    openbtn.style.display = 'none';
+
     function openNav() {
-      document.getElementById("Sidebar").style.width = "300px";
-      document.getElementById("main").style.marginLeft = "0px";
+        navbar = document.getElementById("Sidebar")
+        navbar.style.visibility = "visible";
+        main = document.getElementById("main")
+        if ($(window).width() < 900) {
+          navbar.style.height = "auto";
+          main.style.marginLeft = "0";
+        }
+        else {
+          navbar.style.height = "1000px";
+          main.style.marginLeft = "200px";
+        }
+        navbar.style.opacity = "1";
+        openbtn.style.display = 'none';
+        closebtn.style.display = '';
     }
 
+    openNav();
+
     function closeNav() {
-      document.getElementById("Sidebar").style.width = "0";
-      document.getElementById("main").style.marginLeft = "0";
+        navbar = document.getElementById("Sidebar")
+        main = document.getElementById("main")
+        navbar.style.visibility = "hidden";
+        navbar.style.opacity = "0";
+        navbar.style.height = "0";
+        if ($(window).width() > 900) {
+          main.style.marginLeft = "0px";
+        }
+        openbtn.style.display = '';
+        closebtn.style.display = 'none';
     }
   </script>
 
