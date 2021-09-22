@@ -1,5 +1,5 @@
 from flask import Flask
-from .uncertainty_apps import character_stratagy, cifar10h
+from .uncertainty_apps import character_stratagy, cifar10h_app
 
 dash_chara = character_stratagy.dash_application()
 # dash_cifar = cifar10h.dash_application()
