@@ -84,6 +84,7 @@
 
 
     <h2 id="test">Try it yourself</h2>
+    <a href="test_logistic"></a>
     Here, we trained a logistic regression on the dataset CIFAR10.
     There are \(10\) labels and an equilibrated number of samples for each.
     The samples are images of \(32\times 32\) pixels, coded in RGB. Meaning that there are \(3\times 32^2 + 1\)
@@ -168,5 +169,14 @@
 
 </div>
 
+<script>
+function jump(h){
+    var url = location
+    location.hash = "#" + h
+}
+
+console.log({{anchor}}.id);
+jump({{anchor}}.id);
+</script>
 
 {% endblock %}

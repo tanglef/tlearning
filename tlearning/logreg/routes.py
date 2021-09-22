@@ -47,6 +47,7 @@ def logreg_multi():
         class_label, new_index = predict_tch(idx_to_predict["num"])
         return render_template(
             'multi_class.html',
+            anchor="test",
             title='Multi class code page',
             template='logreg-template',
             prediction=class_label,
@@ -54,6 +55,7 @@ def logreg_multi():
         )
     return render_template(
         'multi_class.html',
+        anchor="main",
         title='Multi class code page',
         template='logreg-template',
         prediction="None yet",
@@ -92,25 +94,3 @@ def predict_tch(idx_test):
         plt.axis('off')
         plt.savefig(os.path.join(path_save, "cifar_img.png"))
         return classes[predicted], idx_test
-
-
-# @logreg_bp.route('/logreg/playing_logreg', methods=['GET'])
-# def logreg_play():
-#     """Point and click logistic model page."""
-
-#     return render_template(
-#         'playing_logereg.html',
-#         title='Logreg GUI play page',
-#         template='logreg-template',
-#     )
-
-
-# @logreg_bp.route('/logreg/math_logreg', methods=['GET'])
-# def logreg_math():
-#     """Some maths for the logistic model page."""
-
-#     return render_template(
-#         'math_logreg.html',
-#         title='logreg math page',
-#         template='logreg-template',
-#     )

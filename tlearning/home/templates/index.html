@@ -1,4 +1,52 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1 id="title">{% block title %} Introduction to the world of machine learning {% endblock %}</h1>
+    <h1 id="title">{% block title %} Introduction to the world of my thesis {% endblock %}</h1>
+    <p align="justify">
+    My P.h.D thesis is about <b>Uncertain labels in classification and expert feedback</b>.
+    And in this subject, I particularly focus on playing with the logistic regression.
+    </p>
+
+    <div class="container">
+        <div class="row h-100">
+          <div class="col my-auto">
+            <p align="justify">
+                "Why?" you ask, well take a look at what modern deep learning models
+                look like (just on your right), that will give you a hint.
+                <br><br>
+                Do you have it now? Yes, classification neural networks in general
+                are simply a big black box at which we add a linear layer.
+                And because most of the time we use the cross-entropy loss
+                (see <a href="https://tlearning.herokuapp.com/logreg/classification"> this part</a>)
+                this results in doing a complicated thing and then a simple
+                logistic regression.
+            </p>
+          </div>
+          <div class="col-8">
+            <img
+            style="max-width: 100%; max-height: 100%; object-position: 50% 50%;"
+            src="./home/static/nn.svg" alt="CNN with logistic regression">
+            </div>
+        </div>
+      </div>
+    Here you will find:
+
+    <ul>
+        <li>
+            Some reminders about the linear model, because we all need to start
+            from the beginning to go further,
+        </li>
+        <li>
+            A crash course on logistic regression, and some visualisations,
+            the thesis being essentially on the role of the logistic regression
+            in models with uncertainty, that should be a good place to freshen
+            up with this model,
+        </li>
+        <li>
+            Some applications to visualize what we mean by uncertainty followed
+            by some explainations about the "in practice". Don't hesitate
+            to play with them (and report
+            <a href="https://github.com/tanglef/tlearning"> here </a>if you break it)
+        </li>
+    </ul>
+
 {% endblock %}

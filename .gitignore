@@ -41,3 +41,7 @@ tlearning/logreg/models_code/data/cifar-10-batches-py/
 tlearning/logreg/models_code/data/cifar-10-python.tar.gz
 
 tlearning/logreg/static/cifar_img.png
+
+tlearning/utils/data/
+
+*.png
