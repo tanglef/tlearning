@@ -42,12 +42,14 @@ def dash_application():
             speci.append(tn / (tn + fp))
         return sensi, speci
 
-    def get_spammer_scores():
+    def get_spammer_scores(n):
         raw = cifar.get_raw()
         raw = raw[(raw.is_attn_check != 1) & (raw.reaction_time > 0)]
 
         spam = []
-        for idx in tqdm(range(len(raw.annotator_id.unique()))):
+        if n == -1:
+            n = len(raw.annotator_id.unique())
+        for idx in tqdm(range(n)):
             df = raw[raw.annotator_id == idx]
             A = np.zeros((10, 10))
             for c in range(10):
@@ -62,8 +64,8 @@ def dash_application():
             )
         return spam
 
-    def fig_spam():
-        spam = get_spammer_scores()
+    def fig_spam(n):
+        spam = get_spammer_scores(n)
         ids = np.arange(len(spam))
         fig = go.Figure([go.Bar(x=ids, y=spam, name="spam score",)]).update_layout(
             barmode="stack",
@@ -90,8 +92,6 @@ def dash_application():
                 ay=-30,
             )
         return fig
-
-    spam_fig = fig_spam()
 
     app = dash.Dash(
         __name__,
@@ -169,6 +169,9 @@ def dash_application():
                                 id="idx-voter",
                                 placeholder="Index between 0 and 2570",
                             ),
+                            html.Button(
+                                'Get spam (<2 minutes to run)',
+                                id='submit-spam-fig', n_clicks=0),
                         ],
                         width=3,
                     ),
@@ -195,7 +198,13 @@ def dash_application():
                 justify="center",
             ),
             dbc.Row(
-                [dbc.Col(children=[html.Div([dcc.Graph(figure=spam_fig)])])],
+                [dbc.Col(
+                    html.Div([
+                        dcc.Graph(id="spam-fig"),
+
+                    ]),
+                ),
+                ],
             ),
         ],
         fluid=True,
@@ -358,5 +367,15 @@ def dash_application():
             showlegend=False,
         )
         return (bar, fig, "Looking at voter number {}".format(index))
+
+    @ app.callback(Output("spam-fig", "figure"),
+                   Input("submit-spam-fig", "n_clicks"))
+    def spam_figure(n_clicks):
+        if n_clicks < 1:
+            n = 200
+        else:
+            n = -1
+        spam_fig = fig_spam(n)
+        return spam_fig
 
     return app
