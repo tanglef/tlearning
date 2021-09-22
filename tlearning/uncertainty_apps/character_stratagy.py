@@ -221,6 +221,13 @@ def dash_application():
             html.P(
                 "Try and play with the population of the village", className="lead"
             ),
+            dbc.Nav(
+                [
+                    dbc.NavItem(dbc.NavLink("Home", active=True, href="/"))
+                ],
+                vertical=True,
+                pills=True,
+            ),
         ],
         style=SIDEBAR_STYLE,
     )

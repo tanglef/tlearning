@@ -229,8 +229,11 @@ def dash_application():
                    className="lead"),
             dbc.Nav(
                 [
-                    dbc.NavLink("Images", href=url_base_pathname),
-                    dbc.NavLink("Voters", href=url_base_pathname + "/voters"),
+                    dbc.NavItem(dbc.NavLink("Images", href=url_base_pathname)),
+                    dbc.NavItem(dbc.NavLink(
+                        "Voters", href=url_base_pathname + "/voters")),
+
+                    dbc.NavItem(dbc.NavLink("Home", active=True, href="/"))
                 ],
                 vertical=True,
                 pills=True,
