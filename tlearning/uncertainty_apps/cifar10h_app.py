@@ -1,9 +1,9 @@
 import sys
 import numpy as np
 import dash
-from dash import dcc
+import dash_core_components as dcc
 import dash_bootstrap_components as dbc
-from dash import html
+import dash_html_components as html
 import plotly.express as px
 import plotly.graph_objects as go
 from tqdm import tqdm
@@ -18,7 +18,7 @@ path_data = os.path.join(path_utils, "data")
 sys.path.append(os.path.join(path_utils, "character_simulator"))
 sys.path.append(os.path.join(path_utils))
 
-from ..utils.cifar10h import CIFAR10H  # noqa
+from cifar10h import CIFAR10H  # noqa
 
 url_base_pathname = "/dashapp_cifar/"
 

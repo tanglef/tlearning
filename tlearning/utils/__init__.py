@@ -1,1 +1,1 @@
-from .cifar10h import CIFAR10H
+from . import cifar10h

@@ -1,13 +1,13 @@
 import numpy as np
 import dash
-from dash import dcc
+import dash_core_components as dcc
 import dash_bootstrap_components as dbc
-from dash import html
+import dash_html_components as html
 import plotly.express as px
 import pandas as pd
 from dash.dependencies import Input, Output
 import torchvision
-from dash import dash_table
+import dash_table
 import sys
 import os
 import torch
@@ -18,8 +18,8 @@ path_data = os.path.join(path_utils, "data")
 sys.path.append(os.path.join(path_utils, "character_simulator"))
 sys.path.append(os.path.join(path_utils))
 
-import ..utils.character_simulator as chara  # noqa
-from ..utils.cifar10h import CIFAR10H  # noqa
+import character_simulator as chara  # noqa
+from cifar10h import CIFAR10H  # noqa
 
 url_base_pathname = '/dashapp_character/'
 
