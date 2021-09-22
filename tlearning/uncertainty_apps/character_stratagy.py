@@ -1,4 +1,3 @@
-import character_simulator as chara
 import numpy as np
 import dash
 import dash_core_components as dcc
@@ -19,6 +18,7 @@ path_data = os.path.join(path_utils, "data")
 sys.path.append(os.path.join(path_utils, "character_simulator"))
 sys.path.append(os.path.join(path_utils))
 
+import character_simulator as chara  # noqa
 from ..utils.cifar10h import CIFAR10H  # noqa
 
 url_base_pathname = '/dashapp_character/'
