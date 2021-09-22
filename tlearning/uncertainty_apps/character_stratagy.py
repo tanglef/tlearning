@@ -110,7 +110,7 @@ def dash_application():
                                     "type": "markdown",
                                     "value": """A **warrior** is a **spammer**.
                                             Their decision is made with the strategy:\n
-    P[i,j] = P(ŷ=i|y=j) = 1(i=c) or 1/K \n
+    P[i,j] = P(ŷ=i|y=j) = 1(i=c) or 1/K \n\n
     depending if strategy is **duel** or **brawl**.
     """,
                                 },
@@ -121,7 +121,7 @@ def dash_application():
                                     "type": "markdown",
                                     "value": """A **villain** is an **adversarial attack**.
                                             Their decision is made with the strategy:\n
-    P[i,j] = P(ŷ=i|y=j) = 0 if i=j, 1/(K-1) o.w.
+    P[i,j] = P(ŷ=i|y=j) = 1/(K-1) 1(i != j).
     """,
                                 },
                                 {

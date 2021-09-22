@@ -2,7 +2,7 @@ from flask import Flask
 from .uncertainty_apps import character_stratagy, cifar10h_app
 
 dash_chara = character_stratagy.dash_application()
-# dash_cifar = cifar10h.dash_application()
+dash_cifar = cifar10h_app.dash_application()
 
 
 def init_app():
@@ -12,7 +12,7 @@ def init_app():
     app.config.from_pyfile('config.py')
 
     dash_chara.init_app(app=app)
-    # dash_cifar.init_app(app=app)
+    dash_cifar.init_app(app=app)
 
     with app.app_context():  # structure
         # import routes
