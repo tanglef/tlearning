@@ -223,7 +223,13 @@ def dash_application():
             ),
             dbc.Nav(
                 [
-                    dbc.NavItem(dbc.NavLink("Home", active=True, href="/"))
+                    dbc.Button(
+                        "Home",
+                        id="home",
+                        className="ml-auto",
+                        href='https://tlearning.herokuapp.com/'
+                    )
+
                 ],
                 vertical=True,
                 pills=True,
@@ -234,20 +240,22 @@ def dash_application():
 
     content = html.Div(id="page-content", style=CONTENT_STYLE)
 
-    app.layout = html.Div([dcc.Location(id="url"), sidebar, content])
+    app.layout = html.Div(
+        [dcc.Location(id="url"), sidebar, content])
 
     @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
     def render_page_content(pathname):
         if pathname == url_base_pathname:
             return home_layout
-        # If the user tries to reach a different page, return a 404 message
-        return dbc.Jumbotron(
-            [
-                html.H1("404: Not found", className="text-danger"),
-                html.Hr(),
-                html.P(f"The pathname {pathname} was not recognised..."),
-            ]
-        )
+        elif pathname != "/":
+            # If the user tries to reach a different page, return a 404 message
+            return dbc.Jumbotron(
+                [
+                    html.H1("404: Not found", className="text-danger"),
+                    html.Hr(),
+                    html.P(f"The pathname {pathname} was not recognised..."),
+                ]
+            )
 
     @app.callback(
         Output("current-number", "children"), Input("input-index", "value")
