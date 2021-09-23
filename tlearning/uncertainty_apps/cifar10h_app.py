@@ -10,6 +10,7 @@ from tqdm import tqdm
 from dash.dependencies import Input, Output
 import torchvision
 import os
+import json
 transform = torchvision.transforms.ToTensor()
 
 current = os.path.dirname(__file__)
@@ -50,7 +51,6 @@ def dash_application():
         if n == -1:
             n = len(raw.annotator_id.unique())
         for idx in tqdm(range(n)):
-            print(idx)
             df = raw[raw.annotator_id == idx]
             A = np.zeros((10, 10))
             for c in range(10):
@@ -66,8 +66,13 @@ def dash_application():
         return spam
 
     def fig_spam(n):
-        spam = get_spammer_scores(n)
-        ids = np.arange(len(spam))
+        # spam = get_spammer_scores(n)
+        # ids = np.arange(len(spam))
+        # with open('./data.json', 'w') as fp:
+        #     json.dump(dict(x=list(ids.astype("float64")), y=spam), fp)
+        with open(os.path.join(current, "data.json")) as json_file:
+            data = json.load(json_file)
+        ids, spam = data["x"], data["y"]
         fig = go.Figure([go.Bar(x=ids, y=spam, name="spam score",)]).update_layout(
             barmode="stack",
             xaxis={
@@ -171,7 +176,7 @@ def dash_application():
                                 placeholder="Index between 0 and 2570",
                             ),
                             html.Button(
-                                'Get spam (<2 minutes to run)',
+                                'Reset barplot',
                                 id='submit-spam-fig', n_clicks=0),
                         ],
                         width=3,
@@ -200,7 +205,9 @@ def dash_application():
             ),
             dbc.Row(
                 [dbc.Col(
-                    html.Div([
+                    html.Div(children=[
+                        # html.Iframe(src="./barplot_spam.html",
+                        #             style={"max-width:100%; max-height:100%;"})
                         dcc.Graph(id="spam-fig"),
 
                     ]),
