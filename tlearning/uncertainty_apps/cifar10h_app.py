@@ -266,7 +266,7 @@ def dash_application():
     def render_page_content(pathname):
         if pathname == url_base_pathname:
             return home_layout
-        elif pathname == url_base_pathname + "/voters":
+        elif pathname == url_base_pathname + "voters":
             return voters_layout
         elif pathname != "/":
             # If the user tries to reach a different page, return a 404 message
