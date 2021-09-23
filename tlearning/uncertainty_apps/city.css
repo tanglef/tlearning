@@ -1,0 +1,325 @@
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: linear-gradient(#2bcaff, #77d9ff);
+    perspective: 2000px;
+    overflow: hidden;
+    text-align: center;
+    -webkit-user-select: none;
+       -moz-user-select: none;
+        -ms-user-select: none;
+            user-select: none;
+}
+
+.rotate-slider {
+    position: absolute;
+    width: 400px;
+    bottom: 20px;
+    z-index: 1;
+    cursor: pointer;
+}
+
+.wrapper {
+    --rotate-y: -40deg;
+    transform-style: preserve-3d;
+    transform: rotateX(-35deg) rotateY(var(--rotate-y));
+}
+
+/* Ground */
+
+.ground {
+    position: relative;
+    width: 720px;
+    height: 600px;
+    background-color: #32cd32;
+    border: 1px solid #13b313;
+    transform: rotateX(90deg);
+    transform-style: preserve-3d;
+}
+
+.ground * {
+    position: absolute;
+    vertical-align: middle;
+    transform: rotateX(-90deg);
+    transform-origin: 50% 100% 0;
+}
+
+/* Fix background color clipping problem on Apple Devices */
+
+.apple-os .ground {
+    background: none;
+    border: none;
+}
+
+.apple-os .ground::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #32cd32;
+    border: 1px solid #13b313;
+    transform: translateZ(-6px);
+}
+
+/* Sky */
+
+
+.cloud {
+    font-size: 70px;
+    opacity: 0.8;
+}
+
+.cloud-1 {
+    transform: translate3d(150px, 150px, 200px) rotateX(-90deg);
+    animation: cloud1 40s ease-in-out infinite;
+}
+
+.cloud-2 {
+    transform: translate3d(500px, 250px, 220px) rotateX(-90deg);
+    animation: cloud2 40s ease-in-out infinite;
+}
+
+/* Roads */
+
+.road {
+    height: 50px;
+    transform-origin: initial;
+    background-image: linear-gradient(#bbb, #bbb 19.9%, #333 20%, #333 80%, #bbb 80.1%);
+}
+
+.road-1 {
+    width: 100%;
+    transform: translateY(60px);
+}
+
+.road-2 {
+    width: 100%;
+    transform: translateY(490px);
+}
+
+.road-3 {
+    width: 400px;
+    transform: translate(-100px, 275px) rotate(90deg);
+}
+
+.road-4 {
+    width: 400px;
+    transform: translate(420px, 275px) rotate(90deg);
+}
+
+.road-5 {
+    width: 490px;
+    transform: translate(115px, 275px);
+}
+
+.road-6 {
+    width: 185px;
+    transform: translate(265px, 382.5px) rotate(90deg);
+}
+
+.road-7 {
+    width: 70px;
+    transform: translate(585px, 540px) rotate(90deg);
+}
+
+/* Buildings */
+
+.house {
+    font-size: 50px;
+    width: 65px;
+}
+
+.house-1{transform:translateX(20px) rotateX(-90deg)}
+
+.apartment {
+    font-size: 60px;
+    width: 85px;
+}
+
+.apartment-1 {
+    transform: translate(610px, 98px) rotateX(-90deg) rotateY(-90deg);
+}
+
+.school {
+    font-size: 70px;
+    transform: translate(20px, 360px) rotateX(-90deg) rotateY(90deg);
+}
+
+
+.department-store {
+    font-size: 70px;
+    width: 96px;
+    transform: translate(490px, 410px) rotateX(-90deg);
+}
+
+
+
+.post-office {
+    font-size: 60px;
+    width: 82px;
+    transform: translate(395px, 490px) rotateX(-90deg) rotateY(-180deg);
+}
+
+
+
+/* Props */
+
+.fountain {
+    font-size: 20px;
+    transform: translate(670px, 550px) rotateX(-90deg) rotateY(calc(var(--rotate-y) * -1));
+}
+
+/* Trees */
+
+.tree {
+    font-size: 32px;
+    width: 40px;
+}
+
+.tree-1{transform:translate(194px,-26px) rotateX(-90deg) rotateY(calc(var(--rotate-y)*-1))}
+.tree-2{transform:translate(164px,-21px) rotateX(-90deg) rotateY(calc(var(--rotate-y)*-1))}
+.tree-3{transform:translate(344px,-1px) rotateX(-90deg) rotateY(calc(var(--rotate-y)*-1))}
+.tree-4{transform:translate(495px,-28px) rotateX(-90deg) rotateY(calc(var(--rotate-y)*-1))}
+.tree-5{transform:translate(75px,-4px) rotateX(-90deg) rotateY(calc(var(--rotate-y)*-1))}
+.tree-6{transform:translate(398px,-16px) rotateX(-90deg) rotateY(calc(var(--rotate-y)*-1))}
+.tree-7{transform:translate(22px,-25px) rotateX(-90deg) rotateY(calc(var(--rotate-y)*-1))}
+
+
+/* Vehicles */
+
+.helicopter {
+    font-size: 30px;
+    transform: translate3d(100px, 100px, 200px) rotateX(-90deg) rotateY(45deg);
+    animation: helicopter 25s ease-in-out infinite;
+}
+
+/* People */
+
+.person {
+    font-size: 15px;
+}
+
+.wizard {
+    transform: translate(20px, 52px) rotateX(-90deg) rotateY(180deg);
+    animation: wizard 30s linear infinite;
+}
+
+.citizen-1 {
+    transform: translate(632px, 100px) rotateX(-90deg) rotateY(90deg);
+    animation: citizen1 25s linear infinite;
+}
+
+.citizen-2 {
+    transform: translate(130px, 265px) rotateX(-90deg) rotateY(180deg);
+    animation: citizen2 28s linear infinite;
+}
+
+.villain-1 {
+    transform: translate(680px, 480px) rotateX(-90deg);
+    animation: villain1 45s linear infinite;
+}
+
+.villain-2 {
+    transform: translate(110px, 470px) rotateX(-90deg) rotateY(-90deg);
+    animation: villain2 30s linear infinite;
+}
+
+.warrior {
+    transform: translate(20px, 520px) rotateX(-90deg) rotateY(180deg);
+    animation: warrior 40s linear infinite;
+}
+
+
+/* Animals */
+
+.dog {
+    font-size: 10px;
+    transform: translate(40px, 55px) rotateX(-90deg) rotateY(180deg);
+    animation: dog1 30s linear infinite;
+}
+
+
+.unicorn{
+    font-size: 8px;
+    transform: translate(320px, 90px) rotateX(-90deg) rotateY(180deg);
+    animation: unicorn1 40s linear infinite;
+}
+
+
+/* Animations */
+
+@keyframes cloud1 {
+    50% {
+        transform: translate3d(500px, 150px, 200px) rotateX(-90deg);
+    }
+}
+
+@keyframes cloud2 {
+    50% {
+        transform: translate3d(150px, 250px, 200px) rotateX(-90deg);
+    }
+}
+
+@keyframes helicopter {
+    20% {
+        transform: translate3d(100px, 500px, 180px) rotateX(-90deg) rotateY(135deg);
+    }
+
+    50% {
+        transform: translate3d(600px, 500px, 200px) rotateX(-90deg) rotateY(225deg);
+    }
+
+    70% {
+        transform: translate3d(600px, 100px, 180px) rotateX(-90deg) rotateY(315deg);
+    }
+
+    100% {
+        transform: translate3d(100px, 100px, 200px) rotateX(-90deg) rotateY(405deg)
+    }
+}
+
+@keyframes dog1 {
+    45% {
+        transform: translate(580px, 55px) rotateX(-90deg) rotateY(180deg);
+    }
+
+    50% {
+        transform: translate(580px, 55px) rotateX(-90deg) rotateY(0deg);
+    }
+
+    95% {
+        transform: translate(580px, 40px) rotateX(-90deg) rotateY(0deg);
+    }
+
+    100% {
+        transform: translate(580px, 40px) rotateX(-90deg) rotateY(-180deg);
+    }
+}
+
+@keyframes unicorn1 {
+    45% {
+        transform: translate(580px, 55px) rotateX(-90deg) rotateY(180deg);
+    }
+
+    50% {
+        transform: translate(580px, 55px) rotateX(-90deg) rotateY(0deg);
+    }
+
+    95% {
+        transform: translate(40px, 55px) rotateX(-90deg) rotateY(0deg);
+    }
+
+    100% {
+        transform: translate(40px, 55px) rotateX(-90deg) rotateY(-180deg);
+    }
+
+}

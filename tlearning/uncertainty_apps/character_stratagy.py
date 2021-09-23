@@ -149,7 +149,7 @@ def dash_application():
                             tooltip_delay=0,
                             tooltip_duration=None,
                         ),
-                        style={"margin-top": '50px'}),
+                        style={"margin-top": '50px', "margin-left": "100px"}),
                 ],
             ),
             dbc.Row(
@@ -187,11 +187,18 @@ def dash_application():
                     ),
                     dbc.Col(children=[dcc.Graph(id="barplot-chara",
                             style={"margin-top": "-500px", "margin-left": "50px"}),
-                    ], width={"size": 9, "offset": 3}),
+                    ], width={"size": 9, "offset": 4}),
                 ]
             ),
-        ],
-        fluid=True,
+            html.Div(children=[
+                html.Iframe(srcDoc=open(os.path.join(current, "city.html"), "r").read(),
+                            style={"height": "70vh", "width": "70vw",
+                                   "object-position": "50% 70%", "margin-top": "30px",
+                                   "margin-bottom": "30px"},
+                            id="div-iframe"),
+            ],
+            ),
+        ]
     )
 
     # from https://dash-bootstrap-components.opensource.faculty.ai/examples/simple-sidebar/page-2
@@ -208,11 +215,11 @@ def dash_application():
 
     # the styles for the main content position it to the right of the sidebar and
     # add some padding.
-    CONTENT_STYLE = {
-        "margin-left": "18rem",
-        "margin-right": "2rem",
-        "padding": "2rem 1rem",
-    }
+    # CONTENT_STYLE = {
+    #     "margin-left": "18rem",
+    #     "margin-right": "2rem",
+    #     "padding": "2rem 1rem",
+    # }
 
     sidebar = html.Div(
         [
@@ -238,26 +245,44 @@ def dash_application():
         style=SIDEBAR_STYLE,
     )
 
-    content = html.Div(id="page-content", style=CONTENT_STYLE)
+    # content = html.Div(id="page-content", style=CONTENT_STYLE)
 
-    app.layout = html.Div(
-        [dcc.Location(id="url"), sidebar, content])
+    app.layout = dbc.Container([sidebar, home_layout])
 
-    @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
-    def render_page_content(pathname):
-        if pathname == url_base_pathname:
-            return home_layout
-        elif pathname != "/":
-            # If the user tries to reach a different page, return a 404 message
-            return dbc.Jumbotron(
-                [
-                    html.H1("404: Not found", className="text-danger"),
-                    html.Hr(),
-                    html.P(f"The pathname {pathname} was not recognised..."),
-                ]
-            )
+    @ app.callback(Output("iframe_div", "children"),
+                   [Input("table_chara", "data")])
+    def render_iframe(table):
+        print(table)
+        child = html.Iframe(srcDoc=open(os.path.join(current, "city.html"), "r").read(),
+                            style={"height": "70vh", "width": "70vw",
+                                   "object-position": "50% 70%", "margin-top": "30px",
+                                   "margin-bottom": "30px"},
+                            id="div-iframe")
+        return child
+    # @ app.callback(Output("page-content", "children"), [Input("url", "pathname")])
+    # def render_page_content(pathname):
+    #     if pathname == url_base_pathname:
+    #         return home_layout
+    #     elif pathname == url_base_pathname + "city.html":
+    #         return dbc.Container(
+    #             html.Div(children=[
+    #                 html.Iframe(src=url_base_pathname + "city.html",
+    #                             style={"height": "80vh", "width": "70vw",
+    #                                    "object-position": "50% 90%"})
+    #             ]
+    #             )
+    #         )
+    #     elif pathname != "/":
+    #         # If the user tries to reach a different page, return a 404 message
+    #         return dbc.Jumbotron(
+    #             [
+    #                 html.H1("404: Not found", className="text-danger"),
+    #                 html.Hr(),
+    #                 html.P(f"The pathname {pathname} was not recognised..."),
+    #             ]
+    #         )
 
-    @app.callback(
+    @ app.callback(
         Output("current-number", "children"), Input("input-index", "value")
     )
     def randomize(index):
@@ -269,7 +294,7 @@ def dash_application():
         else:
             return index
 
-    @app.callback(
+    @ app.callback(
         [Output("image-cifar", "figure"), Output("true-label", "children")],
         [Input("current-number", "children")],
     )

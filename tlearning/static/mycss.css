@@ -65,10 +65,10 @@ h5:before {
     padding-top: 50px;
     top: 50px;
     left: 0;
-    width: 200px;
+    width: 250px;
     position: fixed;
-    height: 100%;
-    overflow: auto;
+    height: 100vh;
+    overflow: scroll;
     background-color: #ffffff;
     transition: 0.5s;
 }
@@ -143,12 +143,12 @@ h5:before {
 
 p.tips
     {
-        background-color: #f0f7fb;
-        background-image: url(./tips.png);
+        background-color: #f2f5f7;
+        background-image: url(./tips2.png);
         background-position: left;
         background-repeat: no-repeat;
         border-left: solid 4px #3498db;
-        background-size: 70px 70px;
+        background-size: 75px 75px;
         line-height: 18px;
         overflow: hidden;
         padding: 30px 80px;
