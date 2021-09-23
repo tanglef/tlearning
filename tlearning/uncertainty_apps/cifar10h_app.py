@@ -50,6 +50,7 @@ def dash_application():
         if n == -1:
             n = len(raw.annotator_id.unique())
         for idx in tqdm(range(n)):
+            print(idx)
             df = raw[raw.annotator_id == idx]
             A = np.zeros((10, 10))
             for c in range(10):
@@ -240,14 +241,14 @@ def dash_application():
                 [
                     dbc.NavItem(dbc.NavLink("Images", href=url_base_pathname)),
                     dbc.NavItem(dbc.NavLink(
-                        "Voters", href=url_base_pathname + "/voters")),
+                        "Voters", href=url_base_pathname + "voters")),
 
                     dbc.Button(
                         "Home",
                         id="home",
                         className="ml-auto",
                         href='https://tlearning.herokuapp.com/'
-                    )
+                    ),
                 ],
                 vertical=True,
                 pills=True,
