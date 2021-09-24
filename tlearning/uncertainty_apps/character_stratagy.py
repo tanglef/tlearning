@@ -190,14 +190,17 @@ def dash_application():
                     ], width={"size": 9, "offset": 4}),
                 ]
             ),
-            html.Div(children=[
-                html.Iframe(srcDoc=open(os.path.join(current, "city.html"), "r").read(),
-                            style={"height": "70vh", "width": "70vw",
-                                   "object-position": "50% 70%", "margin-top": "30px",
-                                   "margin-bottom": "30px"},
-                            id="div-iframe"),
-            ],
-            ),
+            # html.Div(children=[
+            #     html.Iframe(srcDoc=open(os.path.join(current, "city.html"), "r").read(),
+            #                 style={"height": "70vh", "width": "70vw",
+            #                        "object-position": "50% 70%", "margin-top": "30px",
+            #                        "margin-bottom": "30px"},
+            #                 id="div-iframe"),
+            html.Div(id="content", children=os.path.join(
+                current, "city.html"), style={'display': "none"}),
+            # ],
+            # ),
+            html.Div(id="iframe-div")
         ]
     )
 
@@ -249,38 +252,41 @@ def dash_application():
 
     app.layout = dbc.Container([sidebar, home_layout])
 
-    @ app.callback(Output("iframe_div", "children"),
-                   [Input("table_chara", "data")])
+    # @ app.callback([Output("div-iframe", component_property='srcDoc'),
+    #                Input("table_chara", "data"))
+    @ app.callback([Output("iframe-div", "children"),
+                    Output("content", "children")],
+                   Input("table_chara", "data"))
     def render_iframe(table):
-        print(table)
-        child = html.Iframe(srcDoc=open(os.path.join(current, "city.html"), "r").read(),
-                            style={"height": "70vh", "width": "70vw",
-                                   "object-position": "50% 70%", "margin-top": "30px",
-                                   "margin-bottom": "30px"},
-                            id="div-iframe")
-        return child
-    # @ app.callback(Output("page-content", "children"), [Input("url", "pathname")])
-    # def render_page_content(pathname):
-    #     if pathname == url_base_pathname:
-    #         return home_layout
-    #     elif pathname == url_base_pathname + "city.html":
-    #         return dbc.Container(
-    #             html.Div(children=[
-    #                 html.Iframe(src=url_base_pathname + "city.html",
-    #                             style={"height": "80vh", "width": "70vw",
-    #                                    "object-position": "50% 90%"})
-    #             ]
-    #             )
-    #         )
-    #     elif pathname != "/":
-    #         # If the user tries to reach a different page, return a 404 message
-    #         return dbc.Jumbotron(
-    #             [
-    #                 html.H1("404: Not found", className="text-danger"),
-    #                 html.Hr(),
-    #                 html.P(f"The pathname {pathname} was not recognised..."),
-    #             ]
-    #         )
+        url = os.path.join(current, "city.html")
+        base_url = url
+        url += "?"
+        for i in table:  # i is the line of the table
+            choice = str(i["choice"])
+            strat = i["strategy"]
+            if strat == "duel":
+                url += "nduel=" + choice
+            elif strat == "brawl":
+                url += "nbrawl=" + choice
+            elif strat == "influenced":
+                url += "ncitizen=" + choice
+            elif strat == "liar":
+                url += "nvillain=" + choice
+            elif strat == "seer":
+                url += "nseer=" + choice
+            elif strat == "pressured":
+                url += "npressured=" + choice
+
+            if i != table[-1]:
+                url += "&"
+        os.rename(base_url, url)
+        string = open(url, "r").read()
+        os.rename(url, base_url)
+        return html.Iframe(srcDoc=string,
+                           style={"height": "70vh", "width": "70vw",
+                                  "object-position": "50% 70%", "margin-top": "30px",
+                                  "margin-bottom": "30px"},
+                           id="frame"+str(np.random.randint(1e6))), url
 
     @ app.callback(
         Output("current-number", "children"), Input("input-index", "value")
