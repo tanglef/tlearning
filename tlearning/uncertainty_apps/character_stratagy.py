@@ -190,17 +190,9 @@ def dash_application():
                     ], width={"size": 9, "offset": 4}),
                 ]
             ),
-            # html.Div(children=[
-            #     html.Iframe(srcDoc=open(os.path.join(current, "city.html"), "r").read(),
-            #                 style={"height": "70vh", "width": "70vw",
-            #                        "object-position": "50% 70%", "margin-top": "30px",
-            #                        "margin-bottom": "30px"},
-            #                 id="div-iframe"),
             html.Div(id="content", children=os.path.join(
                 current, "city.html"), style={'display': "none"}),
-            # ],
-            # ),
-            html.Div(id="iframe-div")
+            html.Div(id="iframe-div", style={"text-align": "right"})
         ]
     )
 
@@ -215,14 +207,6 @@ def dash_application():
         "padding": "2rem 1rem",
         "background-color": "#f8f9fa",
     }
-
-    # the styles for the main content position it to the right of the sidebar and
-    # add some padding.
-    # CONTENT_STYLE = {
-    #     "margin-left": "18rem",
-    #     "margin-right": "2rem",
-    #     "padding": "2rem 1rem",
-    # }
 
     sidebar = html.Div(
         [
@@ -248,12 +232,8 @@ def dash_application():
         style=SIDEBAR_STYLE,
     )
 
-    # content = html.Div(id="page-content", style=CONTENT_STYLE)
-
     app.layout = dbc.Container([sidebar, home_layout])
 
-    # @ app.callback([Output("div-iframe", component_property='srcDoc'),
-    #                Input("table_chara", "data"))
     @ app.callback([Output("iframe-div", "children"),
                     Output("content", "children")],
                    Input("table_chara", "data"))
@@ -283,7 +263,7 @@ def dash_application():
         string = open(url, "r").read()
         os.rename(url, base_url)
         return html.Iframe(srcDoc=string,
-                           style={"height": "70vh", "width": "70vw",
+                           style={"height": "600px", "width": "1000px",
                                   "object-position": "50% 70%", "margin-top": "30px",
                                   "margin-bottom": "30px"},
                            id="frame"+str(np.random.randint(1e6))), url
