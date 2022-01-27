@@ -21,16 +21,16 @@ sys.path.append(os.path.join(path_utils))
 import character_simulator as chara  # noqa
 from cifar10h import CIFAR10H  # noqa
 
-url_base_pathname = '/dashapp_character/'
+url_base_pathname = "/dashapp_character/"
 
 
 def dash_application():
     transform = torchvision.transforms.ToTensor()
-    cifar = CIFAR10H(root=path_data, download=True,
-                     train=True, transform=transform)
+    cifar = CIFAR10H(
+        root=path_data, download=True, train=True, transform=transform
+    )
 
     all_chara = {
-        "warrior ⚔️🛡️": {"duel": 0, "brawl": 0},
         "citizen 👨‍👨‍👦👩‍👩‍👧": {"influenced": 0},
         "villain 🦹👹": {"liar": 0},
         "wizard 🧙🦄": {"seer": 0, "pressured": 0},
@@ -65,8 +65,10 @@ def dash_application():
                                 placeholder="Index between 0 and 9999",
                             ),
                             html.Div(id="true-label"),
-                            dcc.Graph(id="image-cifar",
-                                      style={"margin-bottom": "0px"}),
+                            dcc.Graph(
+                                id="image-cifar",
+                                style={"margin-bottom": "0px"},
+                            ),
                         ],
                         width=4,
                     ),
@@ -84,14 +86,14 @@ def dash_application():
                                 }
                                 if i != "choice"
                                 else {
-                                        "name": i,
-                                        "id": i,
-                                        "editable": True,
-                                        "type": "numeric",
+                                    "name": i,
+                                    "id": i,
+                                    "editable": True,
+                                    "type": "numeric",
                                 }
                                 for i in df.columns
                             ],
-                            style_cell={"textAlign": "left", 'fontSize': 20},
+                            style_cell={"textAlign": "left", "fontSize": 20},
                             style_data_conditional=[
                                 {
                                     "if": {"row_index": "odd"},
@@ -105,23 +107,12 @@ def dash_application():
                             tooltip_conditional=[
                                 {
                                     "if": {
-                                        "filter_query": '{strategy} contains "duel" or {strategy} contains "brawl"'
-                                    },
-                                    "type": "markdown",
-                                    "value": """A **warrior** is a **spammer**.
-                                            Their decision is made with the strategy:\n
-    P[i,j] = P(ŷ=i|y=j) = 1(i=c) or 1/K \n\n
-    depending if strategy is **duel** or **brawl**.
-    """,
-                                },
-                                {
-                                    "if": {
                                         "filter_query": '{strategy} contains "liar"'
                                     },
                                     "type": "markdown",
-                                    "value": """A **villain** is an **adversarial attack**.
+                                    "value": """A **villain** is a **spammer attack**.
                                             Their decision is made with the strategy:\n
-    P[i,j] = P(ŷ=i|y=j) = 1/(K-1) 1(i != j).
+    P[i,j] = P(ŷ=i|y=j) = 1/K.
     """,
                                 },
                                 {
@@ -143,13 +134,14 @@ def dash_application():
                                     "type": "markdown",
                                     "value": """A **citizen** is any **individual**.
                                             Their decision is made with a strategy
-    with hesitations.""",
+    from a class-conditional transition.""",
                                 },
                             ],
                             tooltip_delay=0,
                             tooltip_duration=None,
                         ),
-                        style={"margin-top": '50px', "margin-left": "100px"}),
+                        style={"margin-top": "50px", "margin-left": "100px"},
+                    ),
                 ],
             ),
             dbc.Row(
@@ -158,9 +150,16 @@ def dash_application():
                         children=[
                             html.Label(
                                 "Joint probability distribution for citizens confusions",
-                                style={"margin-top": '-50px', "z-index": "1000000"}),
-                            html.P("Sum of lines must be one and symmetric",
-                                   id="alert-matrix", style={"display": "none"}),
+                                style={
+                                    "margin-top": "-50px",
+                                    "z-index": "1000000",
+                                },
+                            ),
+                            html.P(
+                                "Sum of lines must be one and symmetric",
+                                id="alert-matrix",
+                                style={"display": "none"},
+                            ),
                             dash_table.DataTable(
                                 id="citizen-matrix",
                                 data=pd.DataFrame(
@@ -169,11 +168,10 @@ def dash_application():
                                     columns=list(cifar.classes_labels),
                                 ).to_dict("records"),
                                 style_cell={"textAlign": "center"},
-                                columns=[{
-                                    "name": i,
-                                    "id": i,
-                                    "type": "numeric"
-                                } for i in list(cifar.classes_labels)],
+                                columns=[
+                                    {"name": i, "id": i, "type": "numeric"}
+                                    for i in list(cifar.classes_labels)
+                                ],
                                 editable=True,
                                 style_data_conditional=[
                                     {
@@ -185,14 +183,26 @@ def dash_application():
                         ],
                         width=3.5,
                     ),
-                    dbc.Col(children=[dcc.Graph(id="barplot-chara",
-                            style={"margin-top": "-500px", "margin-left": "50px"}),
-                    ], width={"size": 9, "offset": 4}),
+                    dbc.Col(
+                        children=[
+                            dcc.Graph(
+                                id="barplot-chara",
+                                style={
+                                    "margin-top": "-500px",
+                                    "margin-left": "50px",
+                                },
+                            ),
+                        ],
+                        width={"size": 9, "offset": 4},
+                    ),
                 ]
             ),
-            html.Div(id="content", children=os.path.join(
-                current, "city.html"), style={'display': "none"}),
-            html.Div(id="iframe-div", style={"text-align": "right"})
+            html.Div(
+                id="content",
+                children=os.path.join(current, "city.html"),
+                style={"display": "none"},
+            ),
+            html.Div(id="iframe-div", style={"text-align": "right"}),
         ]
     )
 
@@ -213,7 +223,8 @@ def dash_application():
             html.H2("Viewpoint", className="display-4"),
             html.Hr(),
             html.P(
-                "Try and play with the population of the village", className="lead"
+                "Try and play with the population of the village",
+                className="lead",
             ),
             dbc.Nav(
                 [
@@ -221,9 +232,8 @@ def dash_application():
                         "Home",
                         id="home",
                         className="ml-auto",
-                        href='https://tlearning.herokuapp.com/'
+                        href="https://tlearning.herokuapp.com/",
                     )
-
                 ],
                 vertical=True,
                 pills=True,
@@ -234,9 +244,10 @@ def dash_application():
 
     app.layout = dbc.Container([sidebar, home_layout])
 
-    @ app.callback([Output("iframe-div", "children"),
-                    Output("content", "children")],
-                   Input("table_chara", "data"))
+    @app.callback(
+        [Output("iframe-div", "children"), Output("content", "children")],
+        Input("table_chara", "data"),
+    )
     def render_iframe(table):
         url = os.path.join(current, "city.html")
         base_url = url
@@ -244,11 +255,7 @@ def dash_application():
         for i in table:  # i is the line of the table
             choice = str(i["choice"])
             strat = i["strategy"]
-            if strat == "duel":
-                url += "nduel=" + choice
-            elif strat == "brawl":
-                url += "nbrawl=" + choice
-            elif strat == "influenced":
+            if strat == "influenced":
                 url += "ncitizen=" + choice
             elif strat == "liar":
                 url += "nvillain=" + choice
@@ -262,13 +269,22 @@ def dash_application():
         os.rename(base_url, url)
         string = open(url, "r").read()
         os.rename(url, base_url)
-        return html.Iframe(srcDoc=string,
-                           style={"height": "600px", "width": "1000px",
-                                  "object-position": "50% 70%", "margin-top": "30px",
-                                  "margin-bottom": "30px"},
-                           id="frame"+str(np.random.randint(1e6))), url
+        return (
+            html.Iframe(
+                srcDoc=string,
+                style={
+                    "height": "600px",
+                    "width": "1000px",
+                    "object-position": "50% 70%",
+                    "margin-top": "30px",
+                    "margin-bottom": "30px",
+                },
+                id="frame" + str(np.random.randint(1e6)),
+            ),
+            url,
+        )
 
-    @ app.callback(
+    @app.callback(
         Output("current-number", "children"), Input("input-index", "value")
     )
     def randomize(index):
@@ -280,7 +296,7 @@ def dash_application():
         else:
             return index
 
-    @ app.callback(
+    @app.callback(
         [Output("image-cifar", "figure"), Output("true-label", "children")],
         [Input("current-number", "children")],
     )
@@ -292,17 +308,20 @@ def dash_application():
             return px.scatter(title="Error: " + e)
         im = np.transpose(im.numpy(), (1, 2, 0))
         fig = px.imshow(im)
-        fig.update_layout(margin=dict(l=10, r=10, b=10, t=10),
-                          height=400, width=400)
+        fig.update_layout(
+            margin=dict(l=10, r=10, b=10, t=10), height=400, width=400
+        )
         fig.update_xaxes(showticklabels=False)
         fig.update_yaxes(showticklabels=False)
         y = torch.Tensor([cifar.true_targets[index]]).type(torch.int)
 
-        return (fig, "The true label is {}".format(cifar.classes_labels[y.item()]))
+        return (
+            fig,
+            "The true label is {}".format(cifar.classes_labels[y.item()]),
+        )
 
-    @ app.callback(
-        Output("alert-matrix", "style"),
-        Input("citizen-matrix", "data")
+    @app.callback(
+        Output("alert-matrix", "style"), Input("citizen-matrix", "data")
     )
     def check_matrix(data):
         if all([sum(list(data[i].values())) == 1 for i in range(10)]):
@@ -310,10 +329,13 @@ def dash_application():
         else:
             return {"display": "block"}
 
-    @ app.callback(
+    @app.callback(
         Output("barplot-chara", "figure"),
-        [Input("table_chara", "data"), Input("current-number", "children"),
-         Input("citizen-matrix", "data")],
+        [
+            Input("table_chara", "data"),
+            Input("current-number", "children"),
+            Input("citizen-matrix", "data"),
+        ],
     )
     def get_votes(df, index, matrix):
         y = torch.Tensor([cifar.true_targets[index]]).type(torch.int)
@@ -321,8 +343,6 @@ def dash_application():
             {
                 "character": np.repeat(
                     [
-                        "warrior-duel",
-                        "warrior-brawl",
                         "citizen-influenced",
                         "villain-liar",
                         "wizard-pressured",
@@ -330,28 +350,18 @@ def dash_application():
                     ],
                     10,
                 ),
-                "category": cifar.classes_labels * 6,
-                "count": [0] * 60,
+                "category": cifar.classes_labels * 4,
+                "count": [0] * 40,
             }
         )
         for charac in df:
             for n in range(charac["choice"]):
                 strat = charac["strategy"]
-                if strat == "duel":
-                    character = "warrior-duel"
-                    people = chara.warrior.Warrior(
-                        10, strategy="duel", selection=1)
-                    vote = people.answer(y)
-                elif strat == "brawl":
-                    character = "warrior-brawl"
-                    people = chara.warrior.Warrior(
-                        10, strategy="brawl", selection=1
-                    )
-                    vote = people.answer(y)
-                elif strat == "influenced":
+                if strat == "influenced":
                     character = "citizen-influenced"
                     people = chara.citizen.Citizen(
-                        10, strategy=pd.DataFrame(matrix).to_numpy())  # TODO
+                        10, strategy=pd.DataFrame(matrix).to_numpy()
+                    )
                     vote = people.answer(y)
                 elif strat == "liar":
                     character = "villain-liar"
@@ -362,8 +372,9 @@ def dash_application():
                         character = "wizard-pressured"
                         people = chara.wizard.Wizard(10, strategy="pressured")
                         others = (
-                            ll_chara.loc[ll_chara.character !=
-                                         "wizard-pressured"]
+                            ll_chara.loc[
+                                ll_chara.character != "wizard-pressured"
+                            ]
                             .groupby("category")
                             .sum()["count"]
                         )
@@ -389,4 +400,5 @@ def dash_application():
             title="Results by character",
         )
         return fig
+
     return app

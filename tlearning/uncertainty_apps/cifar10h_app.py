@@ -11,6 +11,7 @@ from dash.dependencies import Input, Output
 import torchvision
 import os
 import json
+
 transform = torchvision.transforms.ToTensor()
 
 current = os.path.dirname(__file__)
@@ -25,8 +26,9 @@ url_base_pathname = "/dashapp_cifar/"
 
 
 def dash_application():
-    cifar = CIFAR10H(root=path_data, download=True,
-                     train=True, transform=transform)
+    cifar = CIFAR10H(
+        root=path_data, download=True, train=True, transform=transform
+    )
 
     def spe_index(df, idx):
         raw = df[df.annotator_id == idx]
@@ -60,20 +62,31 @@ def dash_application():
                     num_kc = len(raw_c[raw_c.chosen_label == k])
                     A[c, k] = num_kc / denom
             spam.append(
-                1 / 90 *
-                np.sum(((A[np.newaxis, :, :] - A[:, np.newaxis, :]) ** 2)) / 2
+                1
+                / 90
+                * np.sum(((A[np.newaxis, :, :] - A[:, np.newaxis, :]) ** 2))
+                / 2
             )
         return spam
 
-    def fig_spam(n):
+    def fig_spam(n, ds=False):
         # spam = get_spammer_scores(n)
         # ids = np.arange(len(spam))
         # with open('./data.json', 'w') as fp:
         #     json.dump(dict(x=list(ids.astype("float64")), y=spam), fp)
-        with open(os.path.join(current, "data.json")) as json_file:
+        file = "data.json" if ds is False else "data_ds.json"
+        with open(os.path.join(current, file)) as json_file:
             data = json.load(json_file)
         ids, spam = data["x"], data["y"]
-        fig = go.Figure([go.Bar(x=ids, y=spam, name="spam score",)]).update_layout(
+        fig = go.Figure(
+            [
+                go.Bar(
+                    x=ids,
+                    y=spam,
+                    name="spam score",
+                )
+            ]
+        ).update_layout(
             barmode="stack",
             xaxis={
                 "range": [0, 200],
@@ -143,12 +156,14 @@ def dash_application():
                                             dcc.Tab(
                                                 label="Votes",
                                                 children=[
-                                                    dcc.Graph(id="barplots")],
+                                                    dcc.Graph(id="barplots")
+                                                ],
                                             ),
                                             dcc.Tab(
                                                 label="Times",
                                                 children=[
-                                                    dcc.Graph(id="boxplots")],
+                                                    dcc.Graph(id="boxplots")
+                                                ],
                                             ),
                                         ]
                                     )
@@ -176,8 +191,10 @@ def dash_application():
                                 placeholder="Index between 0 and 2570",
                             ),
                             html.Button(
-                                'Reset barplot',
-                                id='submit-spam-fig', n_clicks=0),
+                                "Reset barplot",
+                                id="submit-spam-fig",
+                                n_clicks=0,
+                            ),
                         ],
                         width=3,
                     ),
@@ -203,15 +220,32 @@ def dash_application():
                 ],
                 justify="center",
             ),
+            html.H2("Spam scores using ground truths"),
             dbc.Row(
-                [dbc.Col(
-                    html.Div(children=[
-                        # html.Iframe(src="./barplot_spam.html",
-                        #             style={"max-width:100%; max-height:100%;"})
-                        dcc.Graph(id="spam-fig"),
-
-                    ]),
-                ),
+                [
+                    dbc.Col(
+                        html.Div(
+                            children=[
+                                # html.Iframe(src="./barplot_spam.html",
+                                #             style={"max-width:100%; max-height:100%;"})
+                                dcc.Graph(id="spam-fig"),
+                            ]
+                        ),
+                    ),
+                ],
+            ),
+            html.H2("Spam scores using DS model"),
+            dbc.Row(
+                [
+                    dbc.Col(
+                        html.Div(
+                            children=[
+                                # html.Iframe(src="./barplot_spam.html",
+                                #             style={"max-width:100%; max-height:100%;"})
+                                dcc.Graph(id="spam-fig-ds"),
+                            ]
+                        ),
+                    ),
                 ],
             ),
         ],
@@ -242,19 +276,23 @@ def dash_application():
         [
             html.H2("Viewpoint", className="display-4"),
             html.Hr(),
-            html.P("Navigate between voters and images perspectives",
-                   className="lead"),
+            html.P(
+                "Navigate between voters and images perspectives",
+                className="lead",
+            ),
             dbc.Nav(
                 [
                     dbc.NavItem(dbc.NavLink("Images", href=url_base_pathname)),
-                    dbc.NavItem(dbc.NavLink(
-                        "Voters", href=url_base_pathname + "voters")),
-
+                    dbc.NavItem(
+                        dbc.NavLink(
+                            "Voters", href=url_base_pathname + "voters"
+                        )
+                    ),
                     dbc.Button(
                         "Home",
                         id="home",
                         className="ml-auto",
-                        href='https://tlearning.herokuapp.com/'
+                        href="https://tlearning.herokuapp.com/",
                     ),
                 ],
                 vertical=True,
@@ -267,9 +305,12 @@ def dash_application():
     content = html.Div(id="page-content", style=CONTENT_STYLE)
 
     app.layout = html.Div(
-        [dcc.Location(id="url", refresh=False), sidebar, content])
+        [dcc.Location(id="url", refresh=False), sidebar, content]
+    )
 
-    @app.callback(Output("page-content", "children"), [Input("url", "pathname")])
+    @app.callback(
+        Output("page-content", "children"), [Input("url", "pathname")]
+    )
     def render_page_content(pathname):
         if pathname == url_base_pathname:
             return home_layout
@@ -285,7 +326,9 @@ def dash_application():
                 ]
             )
 
-    @app.callback(Output("current-number", "children"), Input("input-index", "value"))
+    @app.callback(
+        Output("current-number", "children"), Input("input-index", "value")
+    )
     def randomize(index):
         if index is None or index == "":
             return np.random.randint(low=0, high=9999, size=1)[0]
@@ -328,7 +371,8 @@ def dash_application():
             fig,
             boxplots,
             "The true label is {}".format(
-                cifar.classes_labels[cifar.true_targets[index]]),
+                cifar.classes_labels[cifar.true_targets[index]]
+            ),
         )
 
     @app.callback(
@@ -383,14 +427,26 @@ def dash_application():
         )
         return (bar, fig, "Looking at voter number {}".format(index))
 
-    @ app.callback(Output("spam-fig", "figure"),
-                   Input("submit-spam-fig", "n_clicks"))
+    @app.callback(
+        Output("spam-fig", "figure"), Input("submit-spam-fig", "n_clicks")
+    )
     def spam_figure(n_clicks):
         if n_clicks < 1:
             n = 200
         else:
             n = -1
         spam_fig = fig_spam(n)
+        return spam_fig
+
+    @app.callback(
+        Output("spam-fig-ds", "figure"), Input("submit-spam-fig", "n_clicks")
+    )
+    def spam_figure_ds(n_clicks):
+        if n_clicks < 1:
+            n = 200
+        else:
+            n = -1
+        spam_fig = fig_spam(n, ds=True)
         return spam_fig
 
     return app
